@@ -4,8 +4,9 @@
 ### 프로젝트에서 코드 스타일 체크 사용 방법
 1. Checkstyle
     - checkstyle 8.24 버전 이상을 사용해야 한다.
-    - `java -DsuppressionFile=./codestyle/naver-checkstyle-suppressions.xml -jar checkstyle-10.18.1.jar -c ./codestyle/naver-checkstyle-rules.xml src`
-
+   ```shell
+   java -DsuppressionFile=./codestyle/naver-checkstyle-suppressions.xml -jar checkstyle-10.18.1.jar -c ./codestyle/naver-checkstyle-rules.xml src
+   ```
 
 2. IntelliJ
    - File > Setting 메뉴로 이동
