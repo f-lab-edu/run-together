@@ -1,0 +1,28 @@
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### IntelliJ ###
+.idea/
+out/
+
+### Java ###
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+### Gradle ###
+.gradle
+**/build/
