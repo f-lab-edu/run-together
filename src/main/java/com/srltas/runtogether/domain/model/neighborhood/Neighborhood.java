@@ -3,12 +3,12 @@ package com.srltas.runtogether.domain.model.neighborhood;
 import com.srltas.runtogether.domain.model.location.DistanceCalculator;
 import com.srltas.runtogether.domain.model.location.Location;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @EqualsAndHashCode
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Neighborhood {
 
 	@Getter

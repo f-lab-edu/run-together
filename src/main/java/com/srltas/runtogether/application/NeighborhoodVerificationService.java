@@ -9,9 +9,9 @@ import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
 import com.srltas.runtogether.domain.model.neighborhood.VerifiedNeighborhoodRepository;
 import com.srltas.runtogether.domain.model.user.User;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NeighborhoodVerificationService {
 
 	private final NeighborhoodRepository neighborhoodRepository;

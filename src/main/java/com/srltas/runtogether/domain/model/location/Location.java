@@ -1,12 +1,12 @@
 package com.srltas.runtogether.domain.model.location;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @EqualsAndHashCode
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Location {
 
 	private final double latitude;
