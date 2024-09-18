@@ -1,5 +1,6 @@
 package com.srltas.runtogether.application;
 
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.*;
@@ -7,6 +8,7 @@ import static org.mockito.MockitoAnnotations.*;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -44,39 +46,52 @@ class NeighborhoodVerificationServiceTest {
 		openMocks(this);
 	}
 
-	@Test
-	public void testVerifyAndRegisterNeighborhood_WithinBoundary() {
-		when(neighborhoodRepository.findByName(neighborhoodName)).thenReturn(Optional.of(neighborhood));
-		when(distanceCalculator.calculateDistanceBetween(currentLocation, neighborhood.getLocation())).thenReturn(5.0);
+	@Nested
+	class WhenNeighborhoodIsFound {
 
-		neighborhoodVerificationService.verifyAndRegisterNeighborhood(user, currentLocation, neighborhoodName);
+		@BeforeEach
+		public void setUp() {
+			when(neighborhoodRepository.findByName(neighborhoodName)).thenReturn(Optional.of(neighborhood));
+		}
 
-		verify(verifiedNeighborhoodRepository).saveVerifiedNeighborhood(user, neighborhood);
+		@Test
+		public void testVerifyAndRegisterNeighborhood_WithinBoundary() {
+			when(distanceCalculator.calculateDistanceBetween(currentLocation, neighborhood.getLocation()))
+				.thenReturn(5.0);
+
+			neighborhoodVerificationService.verifyAndRegisterNeighborhood(user, currentLocation, neighborhoodName);
+
+			verify(verifiedNeighborhoodRepository).saveVerifiedNeighborhood(user, neighborhood);
+		}
+
+		@Test
+		public void testVerifyAndRegisterNeighborhood_OutsideBoundary() {
+			when(distanceCalculator.calculateDistanceBetween(currentLocation, neighborhood.getLocation()))
+				.thenReturn(15.0);
+
+			OutOfNeighborhoodBoundaryException exception = assertThrows(OutOfNeighborhoodBoundaryException.class,
+				() -> {
+					neighborhoodVerificationService.verifyAndRegisterNeighborhood(user, currentLocation, neighborhoodName);
+				});
+
+			assertEquals(format("User is outside of the boundary of neighborhood: %s", neighborhoodName), exception.getMessage());
+			verify(verifiedNeighborhoodRepository, never()).saveVerifiedNeighborhood(user, neighborhood);
+		}
 	}
 
-	@Test
-	public void testVerifyAndRegisterNeighborhood_OutsideBoundary() {
-		when(neighborhoodRepository.findByName(neighborhoodName)).thenReturn(Optional.of(neighborhood));
-		when(distanceCalculator.calculateDistanceBetween(currentLocation, neighborhood.getLocation())).thenReturn(15.0);
+	@Nested
+	class WhenNeighborhoodIsNotFound {
+		@Test
+		public void testVerifyAndRegisterNeighborhood_NeighborhoodNotFound() {
+			when(neighborhoodRepository.findByName("Homaesil")).thenReturn(Optional.empty());
 
-		OutOfNeighborhoodBoundaryException exception = assertThrows(OutOfNeighborhoodBoundaryException.class, () -> {
-			neighborhoodVerificationService.verifyAndRegisterNeighborhood(user, currentLocation, neighborhoodName);
-		});
+			NeighborhoodNotFoundException exception = assertThrows(NeighborhoodNotFoundException.class,
+				() -> {
+					neighborhoodVerificationService.verifyAndRegisterNeighborhood(user, currentLocation, neighborhoodName);
+				});
 
-		assertEquals(String.format("User is outside of the boundary of neighborhood: %s", neighborhoodName),
-			exception.getMessage());
-		verify(verifiedNeighborhoodRepository, never()).saveVerifiedNeighborhood(user, neighborhood);
-	}
-
-	@Test
-	public void testVerifyAndRegisterNeighborhood_NeighborhoodNotFound() {
-		when(neighborhoodRepository.findByName("Homaesil")).thenReturn(Optional.empty());
-
-		NeighborhoodNotFoundException exception = assertThrows(NeighborhoodNotFoundException.class, () -> {
-			neighborhoodVerificationService.verifyAndRegisterNeighborhood(user, currentLocation, neighborhoodName);
-		});
-
-		assertEquals(String.format("Neighborhood not found: %s", neighborhoodName), exception.getMessage());
-		verify(verifiedNeighborhoodRepository, never()).saveVerifiedNeighborhood(user, neighborhood);
+			assertEquals(format("Neighborhood not found: %s", neighborhoodName), exception.getMessage());
+			verify(verifiedNeighborhoodRepository, never()).saveVerifiedNeighborhood(user, neighborhood);
+		}
 	}
 }
