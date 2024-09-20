@@ -19,8 +19,8 @@ import com.srltas.runtogether.domain.model.location.DistanceCalculator;
 import com.srltas.runtogether.domain.model.location.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
-import com.srltas.runtogether.domain.model.neighborhood.VerifiedNeighborhoodRepository;
 import com.srltas.runtogether.domain.model.user.User;
+import com.srltas.runtogether.domain.model.user.UserRepository;
 
 class NeighborhoodVerificationServiceTest {
 
@@ -28,15 +28,15 @@ class NeighborhoodVerificationServiceTest {
 	private NeighborhoodRepository neighborhoodRepository;
 
 	@Mock
-	private VerifiedNeighborhoodRepository verifiedNeighborhoodRepository;
+	private DistanceCalculator distanceCalculator;
 
 	@Mock
-	private DistanceCalculator distanceCalculator;
+	private UserRepository userRepository;
 
 	@InjectMocks
 	private NeighborhoodVerificationService neighborhoodVerificationService;
 
-	private User user = new User();
+	private User user = new User(1L, "testUser");
 	private String neighborhoodName = "Gangnam";
 	private Location currentLocation = new Location(37.505858, 127.058319);
 	private Neighborhood neighborhood;
@@ -62,7 +62,7 @@ class NeighborhoodVerificationServiceTest {
 
 			neighborhoodVerificationService.verifyAndRegisterNeighborhood(user, currentLocation, neighborhoodName);
 
-			verify(verifiedNeighborhoodRepository).saveVerifiedNeighborhood(user, neighborhood);
+			verify(userRepository).save(user);
 		}
 
 		@Test
@@ -76,7 +76,7 @@ class NeighborhoodVerificationServiceTest {
 				});
 
 			assertEquals(format("User is outside of the boundary of neighborhood: %s", neighborhoodName), exception.getMessage());
-			verify(verifiedNeighborhoodRepository, never()).saveVerifiedNeighborhood(user, neighborhood);
+			verify(userRepository, never()).save(user);
 		}
 	}
 
@@ -92,7 +92,7 @@ class NeighborhoodVerificationServiceTest {
 				});
 
 			assertEquals(format("Neighborhood not found: %s", neighborhoodName), exception.getMessage());
-			verify(verifiedNeighborhoodRepository, never()).saveVerifiedNeighborhood(user, neighborhood);
+			verify(userRepository, never()).save(user);
 		}
 	}
 }
