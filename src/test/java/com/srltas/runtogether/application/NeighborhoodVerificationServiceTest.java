@@ -39,11 +39,12 @@ class NeighborhoodVerificationServiceTest {
 	private User user = new User();
 	private String neighborhoodName = "Gangnam";
 	private Location currentLocation = new Location(37.505858, 127.058319);
-	private Neighborhood neighborhood = new Neighborhood(neighborhoodName, new Location(37.517347, 127.047382), 7.0);
+	private Neighborhood neighborhood;
 
 	@BeforeEach
 	public void setUp() {
 		openMocks(this);
+		neighborhood = new Neighborhood(neighborhoodName, new Location(37.517347, 127.047382), 7.0, distanceCalculator);
 	}
 
 	@Nested

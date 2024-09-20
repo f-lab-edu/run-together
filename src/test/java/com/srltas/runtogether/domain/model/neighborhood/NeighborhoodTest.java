@@ -26,14 +26,14 @@ class NeighborhoodTest {
 
 		currentLocation = new Location(37.505858, 127.058319);
 		neighborhoodLocation = new Location(37.517347, 127.047382);
-		neighborhood = new Neighborhood("Gangnam", neighborhoodLocation, 7.0);
+		neighborhood = new Neighborhood("Gangnam", neighborhoodLocation, 7.0, distanceCalculator);
 	}
 
 	@Test
 	public void testIsWithinBoundary_WhenUserInSideBoundary() {
 		when(distanceCalculator.calculateDistanceBetween(currentLocation, neighborhoodLocation)).thenReturn(5.0);
 
-		boolean isInSide = neighborhood.isWithinBoundary(currentLocation, distanceCalculator);
+		boolean isInSide = neighborhood.isWithinBoundary(currentLocation);
 
 		assertTrue(isInSide);
 		verify(distanceCalculator).calculateDistanceBetween(currentLocation, neighborhoodLocation);
@@ -43,7 +43,7 @@ class NeighborhoodTest {
 	public void testIsWithinBoundary_WhenUserOutsideBoundary() {
 		when(distanceCalculator.calculateDistanceBetween(currentLocation, neighborhoodLocation)).thenReturn(10.0);
 
-		boolean isInSide = neighborhood.isWithinBoundary(currentLocation, distanceCalculator);
+		boolean isInSide = neighborhood.isWithinBoundary(currentLocation);
 
 		assertFalse(isInSide);
 		verify(distanceCalculator).calculateDistanceBetween(currentLocation, neighborhoodLocation);

@@ -19,7 +19,9 @@ public class Neighborhood {
 
 	private final double boundaryRadius;
 
-	public boolean isWithinBoundary(Location currentLocation, DistanceCalculator distanceCalculator) {
+	private final DistanceCalculator distanceCalculator;
+
+	public boolean isWithinBoundary(Location currentLocation) {
 		double distance = location.calculateDistance(currentLocation, distanceCalculator);
 		return distance <= boundaryRadius;
 	}
