@@ -1,3 +1,11 @@
+---
+name: Issue Template
+about: Issue Template
+title: ''
+labels: ''
+assignees: Srltas
+---
+
 ## 📋 Description
 작업에 대해 명확하고 간결한 설명을 작성합니다.
 
