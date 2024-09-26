@@ -20,6 +20,7 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.adapter.in.LocationNeighborhoodVerifyRequest;
+import com.srltas.runtogether.adapter.in.UserNeighborhoodVerifyRequest;
 import com.srltas.runtogether.application.mappper.LocationNeighborhoodVerifyRequestMapper;
 import com.srltas.runtogether.application.mappper.UserNeighborhoodVerifyRequestMapper;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
@@ -47,13 +48,13 @@ class NeighborhoodVerificationServiceTest {
 	private NeighborhoodVerificationService neighborhoodVerificationService;
 
 	private String neighborhoodName;
-	private com.srltas.runtogether.adapter.in.UserNeighborhoodVerifyRequest userNeighborhoodVerifyRequest;
+	private UserNeighborhoodVerifyRequest userNeighborhoodVerifyRequest;
 	private LocationNeighborhoodVerifyRequest locationNeighborhoodVerifyRequest;
 
 	@BeforeEach
 	public void setUp() {
 		neighborhoodName = "Gangnam";
-		userNeighborhoodVerifyRequest = new com.srltas.runtogether.adapter.in.UserNeighborhoodVerifyRequest(1L, "testUser");
+		userNeighborhoodVerifyRequest = new UserNeighborhoodVerifyRequest(1L, "testUser");
 		locationNeighborhoodVerifyRequest = new LocationNeighborhoodVerifyRequest(1L, 1L);
 	}
 
