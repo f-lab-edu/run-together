@@ -20,10 +20,8 @@ public class NeighborhoodVerificationService {
 	private final NeighborhoodRepository neighborhoodRepository;
 	private final UserRepository userRepository;
 
-	public void verifyAndRegisterNeighborhood(
-		UserNeighborhoodVerifyRequest userNeighborhoodVerifyRequest,
-		LocationNeighborhoodVerifyRequest locationNeighborhoodVerifyRequest,
-		String neighborhoodName) {
+	public void verifyAndRegisterNeighborhood(UserNeighborhoodVerifyRequest userNeighborhoodVerifyRequest,
+		LocationNeighborhoodVerifyRequest locationNeighborhoodVerifyRequest, String neighborhoodName) {
 		Neighborhood neighborhood = neighborhoodRepository.findByName(neighborhoodName)
 			.orElseThrow(() -> new NeighborhoodNotFoundException(neighborhoodName));
 
