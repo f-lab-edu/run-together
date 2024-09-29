@@ -1,14 +1,13 @@
-package com.srltas.runtogether.adapter.out;
+package com.srltas.runtogether.domain.model.location;
 
-import com.srltas.runtogether.domain.model.location.DistanceCalculator;
-import com.srltas.runtogether.domain.model.location.Location;
+import lombok.experimental.UtilityClass;
 
-public class HaversineDistanceCalculator implements DistanceCalculator {
+@UtilityClass
+public final class LocationUtils {
 
 	private static final double EARTH_RADIUS_KM = 6371;
 
-	@Override
-	public double calculateDistanceBetween(Location location1, Location location2) {
+	public static double calculateDistanceBetweenLocations(Location location1, Location location2) {
 		double latitude = Math.toRadians(location1.getLatitude() - location2.getLatitude());
 		double longitude = Math.toRadians(location1.getLongitude() - location2.getLongitude());
 

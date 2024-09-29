@@ -25,8 +25,8 @@ import com.srltas.runtogether.application.mappper.LocationNeighborhoodVerifyRequ
 import com.srltas.runtogether.application.mappper.UserNeighborhoodVerifyRequestMapper;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
-import com.srltas.runtogether.domain.model.location.DistanceCalculator;
 import com.srltas.runtogether.domain.model.location.Location;
+import com.srltas.runtogether.domain.model.location.LocationUtils;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
 import com.srltas.runtogether.domain.model.user.User;
@@ -37,9 +37,6 @@ class NeighborhoodVerificationServiceTest {
 
 	@Mock
 	private NeighborhoodRepository neighborhoodRepository;
-
-	@Mock
-	private DistanceCalculator distanceCalculator;
 
 	@Mock
 	private UserRepository userRepository;
@@ -64,22 +61,20 @@ class NeighborhoodVerificationServiceTest {
 
 		@BeforeEach
 		public void setUp() {
-			Neighborhood neighborhood = new Neighborhood(neighborhoodName, new Location(1L, 1L), 7.0, distanceCalculator);
+			Neighborhood neighborhood = new Neighborhood(neighborhoodName, new Location(1L, 1L), 7.0);
 			given(neighborhoodRepository.findByName(neighborhoodName)).willReturn(Optional.of(neighborhood));
 		}
 
 		@Test
 		@DisplayName("사용자가 동네 경계 안에 있을 때 동네 인증 성공")
 		public void testVerifyAndRegisterNeighborhood_WithinBoundary() {
-			given(distanceCalculator.calculateDistanceBetween(any(Location.class), any(Location.class)))
-				.willReturn(5.0);
-
 			User user = new User(1L, "testUser");
 			Location location = new Location(1L, 1L);
 			try (MockedStatic<UserNeighborhoodVerifyRequestMapper> userMapperMock =
 					 mockStatic(UserNeighborhoodVerifyRequestMapper.class);
 				 MockedStatic<LocationNeighborhoodVerifyRequestMapper> locationMapperMock =
-					 mockStatic(LocationNeighborhoodVerifyRequestMapper.class)) {
+					 mockStatic(LocationNeighborhoodVerifyRequestMapper.class);
+				 MockedStatic<LocationUtils> locationUtilsMock = mockStatic(LocationUtils.class)) {
 
 				userMapperMock.when(() ->
 					UserNeighborhoodVerifyRequestMapper.toDomain(userNeighborhoodVerifyRequest))
@@ -88,6 +83,10 @@ class NeighborhoodVerificationServiceTest {
 				locationMapperMock.when(() ->
 					LocationNeighborhoodVerifyRequestMapper.toDomain(locationNeighborhoodVerifyRequest))
 					.thenReturn(location);
+
+				locationUtilsMock.when(() ->
+					LocationUtils.calculateDistanceBetweenLocations(any(Location.class), any(Location.class)))
+					.thenReturn(5.0);
 
 				neighborhoodVerificationService.verifyAndRegisterNeighborhood(
 					userNeighborhoodVerifyRequest,
@@ -100,17 +99,20 @@ class NeighborhoodVerificationServiceTest {
 		@Test
 		@DisplayName("사용자가 동네 경계 밖에 있을 때 동네 인증 실패")
 		public void testVerifyAndRegisterNeighborhood_OutsideBoundary() {
-			given(distanceCalculator.calculateDistanceBetween(any(Location.class), any(Location.class)))
-				.willReturn(15.0);
+			try (MockedStatic<LocationUtils> locationUtilsMock = mockStatic(LocationUtils.class)) {
+				locationUtilsMock.when(() ->
+					LocationUtils.calculateDistanceBetweenLocations(any(Location.class), any(Location.class)))
+					.thenReturn(15.0);
 
-			OutOfNeighborhoodBoundaryException exception = assertThrows(OutOfNeighborhoodBoundaryException.class,
-				() -> {
-					neighborhoodVerificationService.verifyAndRegisterNeighborhood(userNeighborhoodVerifyRequest,
-						locationNeighborhoodVerifyRequest, neighborhoodName);
-				});
+				OutOfNeighborhoodBoundaryException exception = assertThrows(OutOfNeighborhoodBoundaryException.class,
+					() -> {
+						neighborhoodVerificationService.verifyAndRegisterNeighborhood(userNeighborhoodVerifyRequest,
+							locationNeighborhoodVerifyRequest, neighborhoodName);
+					});
 
-			String expectedExceptionMessage = format("User is outside of the boundary of neighborhood: %s", neighborhoodName);
-			assertThat(exception.getMessage(), is(expectedExceptionMessage));
+				String expectedExceptionMessage = format("User is outside of the boundary of neighborhood: %s", neighborhoodName);
+				assertThat(exception.getMessage(), is(expectedExceptionMessage));
+			}
 			then(userRepository).should(never()).save(any(User.class));
 		}
 	}
