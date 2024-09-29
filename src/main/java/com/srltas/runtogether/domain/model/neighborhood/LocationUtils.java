@@ -1,4 +1,4 @@
-package com.srltas.runtogether.domain.model.location;
+package com.srltas.runtogether.domain.model.neighborhood;
 
 import lombok.experimental.UtilityClass;
 

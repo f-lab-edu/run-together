@@ -1,6 +1,6 @@
 package com.srltas.runtogether.domain.model.neighborhood;
 
-import static com.srltas.runtogether.domain.model.location.LocationUtils.*;
+import static com.srltas.runtogether.domain.model.neighborhood.LocationUtils.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.*;
@@ -11,9 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.srltas.runtogether.domain.model.location.Location;
-import com.srltas.runtogether.domain.model.location.LocationUtils;
 
 @ExtendWith(MockitoExtension.class)
 class NeighborhoodTest {
