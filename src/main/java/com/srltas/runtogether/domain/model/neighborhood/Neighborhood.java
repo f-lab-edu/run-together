@@ -1,7 +1,5 @@
 package com.srltas.runtogether.domain.model.neighborhood;
 
-import com.srltas.runtogether.domain.model.location.Location;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

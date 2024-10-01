@@ -6,7 +6,7 @@ import com.srltas.runtogether.application.mappper.LocationNeighborhoodVerifyRequ
 import com.srltas.runtogether.application.mappper.UserNeighborhoodVerifyRequestMapper;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
-import com.srltas.runtogether.domain.model.location.Location;
+import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
 import com.srltas.runtogether.domain.model.user.User;

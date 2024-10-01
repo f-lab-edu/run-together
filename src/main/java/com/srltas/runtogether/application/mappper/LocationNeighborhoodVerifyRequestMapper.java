@@ -1,7 +1,7 @@
 package com.srltas.runtogether.application.mappper;
 
 import com.srltas.runtogether.adapter.in.LocationNeighborhoodVerifyRequest;
-import com.srltas.runtogether.domain.model.location.Location;
+import com.srltas.runtogether.domain.model.neighborhood.Location;
 
 public class LocationNeighborhoodVerifyRequestMapper {
 
