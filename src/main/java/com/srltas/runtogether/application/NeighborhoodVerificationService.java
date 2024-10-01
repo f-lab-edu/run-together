@@ -1,9 +1,8 @@
 package com.srltas.runtogether.application;
 
-import com.srltas.runtogether.adapter.in.LocationNeighborhoodVerifyRequest;
-import com.srltas.runtogether.adapter.in.UserNeighborhoodVerifyRequest;
-import com.srltas.runtogether.application.mappper.LocationNeighborhoodVerifyRequestMapper;
-import com.srltas.runtogether.application.mappper.UserNeighborhoodVerifyRequestMapper;
+import static com.srltas.runtogether.application.mappper.LocationMapper.*;
+
+import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
@@ -20,19 +19,18 @@ public class NeighborhoodVerificationService {
 	private final NeighborhoodRepository neighborhoodRepository;
 	private final UserRepository userRepository;
 
-	public void verifyAndRegisterNeighborhood(UserNeighborhoodVerifyRequest userNeighborhoodVerifyRequest,
-		LocationNeighborhoodVerifyRequest locationNeighborhoodVerifyRequest, String neighborhoodName) {
-		Neighborhood neighborhood = neighborhoodRepository.findByName(neighborhoodName)
-			.orElseThrow(() -> new NeighborhoodNotFoundException(neighborhoodName));
+	public void verifyAndRegisterNeighborhood(long userId, NeighborhoodVerificationCommand command) {
+		Neighborhood neighborhood = neighborhoodRepository.findById(command.neighborhoodId())
+			.orElseThrow(NeighborhoodNotFoundException::new);
 
-		Location currentLocation = LocationNeighborhoodVerifyRequestMapper.toDomain(locationNeighborhoodVerifyRequest);
+		Location currentLocation = neighborhoodVerificationCommandToDomain(command);
 
 		if (neighborhood.isWithinBoundary(currentLocation)) {
-			User user = UserNeighborhoodVerifyRequestMapper.toDomain(userNeighborhoodVerifyRequest);
+			User user = userRepository.findById(userId);
 			user.addVerifiedNeighborhood(neighborhood);
 			userRepository.save(user);
 		} else {
-			throw new OutOfNeighborhoodBoundaryException(neighborhoodName);
+			throw new OutOfNeighborhoodBoundaryException();
 		}
 	}
 }

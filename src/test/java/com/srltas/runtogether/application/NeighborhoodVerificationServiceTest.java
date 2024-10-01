@@ -21,7 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.adapter.in.LocationNeighborhoodVerifyRequest;
 import com.srltas.runtogether.adapter.in.UserNeighborhoodVerifyRequest;
-import com.srltas.runtogether.application.mappper.LocationNeighborhoodVerifyRequestMapper;
 import com.srltas.runtogether.application.mappper.UserNeighborhoodVerifyRequestMapper;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
