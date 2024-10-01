@@ -1,6 +1,5 @@
 package com.srltas.runtogether.application;
 
-import static java.lang.String.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,9 +18,8 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.srltas.runtogether.adapter.in.LocationNeighborhoodVerifyRequest;
-import com.srltas.runtogether.adapter.in.UserNeighborhoodVerifyRequest;
-import com.srltas.runtogether.application.mappper.UserNeighborhoodVerifyRequestMapper;
+import com.srltas.runtogether.application.mappper.LocationMapper;
+import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
@@ -44,14 +42,12 @@ class NeighborhoodVerificationServiceTest {
 	private NeighborhoodVerificationService neighborhoodVerificationService;
 
 	private String neighborhoodName;
-	private UserNeighborhoodVerifyRequest userNeighborhoodVerifyRequest;
-	private LocationNeighborhoodVerifyRequest locationNeighborhoodVerifyRequest;
+	private NeighborhoodVerificationCommand neighborhoodVerificationCommand;
 
 	@BeforeEach
 	public void setUp() {
 		neighborhoodName = "Gangnam";
-		userNeighborhoodVerifyRequest = new UserNeighborhoodVerifyRequest(1L, "testUser");
-		locationNeighborhoodVerifyRequest = new LocationNeighborhoodVerifyRequest(1L, 1L);
+		neighborhoodVerificationCommand = new NeighborhoodVerificationCommand(1L, 1L, 1);
 	}
 
 	@Nested
@@ -60,8 +56,8 @@ class NeighborhoodVerificationServiceTest {
 
 		@BeforeEach
 		public void setUp() {
-			Neighborhood neighborhood = new Neighborhood(neighborhoodName, new Location(1L, 1L), 7.0);
-			given(neighborhoodRepository.findByName(neighborhoodName)).willReturn(Optional.of(neighborhood));
+			Neighborhood neighborhood = new Neighborhood(1, neighborhoodName, new Location(1L, 1L), 7.0);
+			given(neighborhoodRepository.findById(1)).willReturn(Optional.of(neighborhood));
 		}
 
 		@Test
@@ -69,28 +65,20 @@ class NeighborhoodVerificationServiceTest {
 		public void testVerifyAndRegisterNeighborhood_WithinBoundary() {
 			User user = new User(1L, "testUser");
 			Location location = new Location(1L, 1L);
-			try (MockedStatic<UserNeighborhoodVerifyRequestMapper> userMapperMock =
-					 mockStatic(UserNeighborhoodVerifyRequestMapper.class);
-				 MockedStatic<LocationNeighborhoodVerifyRequestMapper> locationMapperMock =
-					 mockStatic(LocationNeighborhoodVerifyRequestMapper.class);
+			given(userRepository.findById(1L)).willReturn(user);
+
+			try (MockedStatic<LocationMapper> locationMapperMock = mockStatic(LocationMapper.class);
 				 MockedStatic<LocationUtils> locationUtilsMock = mockStatic(LocationUtils.class)) {
 
-				userMapperMock.when(() ->
-					UserNeighborhoodVerifyRequestMapper.toDomain(userNeighborhoodVerifyRequest))
-					.thenReturn(user);
-
 				locationMapperMock.when(() ->
-					LocationNeighborhoodVerifyRequestMapper.toDomain(locationNeighborhoodVerifyRequest))
+						LocationMapper.neighborhoodVerificationCommandToDomain(neighborhoodVerificationCommand))
 					.thenReturn(location);
 
 				locationUtilsMock.when(() ->
-					LocationUtils.calculateDistanceBetweenLocations(any(Location.class), any(Location.class)))
+						LocationUtils.calculateDistanceBetweenLocations(any(Location.class), any(Location.class)))
 					.thenReturn(5.0);
 
-				neighborhoodVerificationService.verifyAndRegisterNeighborhood(
-					userNeighborhoodVerifyRequest,
-					locationNeighborhoodVerifyRequest,
-					neighborhoodName);
+				neighborhoodVerificationService.verifyAndRegisterNeighborhood(1L, neighborhoodVerificationCommand);
 			}
 			then(userRepository).should().save(user);
 		}
@@ -100,17 +88,16 @@ class NeighborhoodVerificationServiceTest {
 		public void testVerifyAndRegisterNeighborhood_OutsideBoundary() {
 			try (MockedStatic<LocationUtils> locationUtilsMock = mockStatic(LocationUtils.class)) {
 				locationUtilsMock.when(() ->
-					LocationUtils.calculateDistanceBetweenLocations(any(Location.class), any(Location.class)))
+						LocationUtils.calculateDistanceBetweenLocations(any(Location.class), any(Location.class)))
 					.thenReturn(15.0);
 
 				OutOfNeighborhoodBoundaryException exception = assertThrows(OutOfNeighborhoodBoundaryException.class,
 					() -> {
-						neighborhoodVerificationService.verifyAndRegisterNeighborhood(userNeighborhoodVerifyRequest,
-							locationNeighborhoodVerifyRequest, neighborhoodName);
+						neighborhoodVerificationService.verifyAndRegisterNeighborhood(1L,
+							neighborhoodVerificationCommand);
 					});
 
-				String expectedExceptionMessage = format("User is outside of the boundary of neighborhood: %s", neighborhoodName);
-				assertThat(exception.getMessage(), is(expectedExceptionMessage));
+				assertThat(exception.getMessage(), is("User is outside of the boundary of neighborhood"));
 			}
 			then(userRepository).should(never()).save(any(User.class));
 		}
@@ -122,16 +109,14 @@ class NeighborhoodVerificationServiceTest {
 		@Test
 		@DisplayName("존재하지 않는 동네를 찾아 예외 발생")
 		public void testVerifyAndRegisterNeighborhood_NeighborhoodNotFound() {
-			given(neighborhoodRepository.findByName(any())).willReturn(Optional.empty());
+			given(neighborhoodRepository.findById(anyInt())).willReturn(Optional.empty());
 
 			NeighborhoodNotFoundException exception = assertThrows(NeighborhoodNotFoundException.class,
 				() -> {
-					neighborhoodVerificationService.verifyAndRegisterNeighborhood(userNeighborhoodVerifyRequest,
-						locationNeighborhoodVerifyRequest, neighborhoodName);
+					neighborhoodVerificationService.verifyAndRegisterNeighborhood(1L, neighborhoodVerificationCommand);
 				});
 
-			String expectedExceptionMessage = format("Neighborhood not found: %s", neighborhoodName);
-			assertThat(exception.getMessage(), is(expectedExceptionMessage));
+			assertThat(exception.getMessage(), is("Neighborhood not found"));
 			then(userRepository).should(never()).save(any(User.class));
 		}
 	}
