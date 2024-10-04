@@ -23,7 +23,7 @@ class NeighborhoodTest {
 	public void setUp() {
 		currentLocation = new Location(37.505858, 127.058319);
 		neighborhoodLocation = new Location(37.517347, 127.047382);
-		neighborhood = new Neighborhood("Gangnam", neighborhoodLocation, 7.0);
+		neighborhood = new Neighborhood(1, "Gangnam", neighborhoodLocation, 7.0);
 	}
 
 	@Test

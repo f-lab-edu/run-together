@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Neighborhood {
 
+	private final int id;
+
 	@Getter
 	private final String name;
 
