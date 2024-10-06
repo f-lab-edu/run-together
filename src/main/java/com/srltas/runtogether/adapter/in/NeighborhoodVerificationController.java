@@ -13,19 +13,29 @@ import com.srltas.runtogether.application.port.in.NeighborhoodVerificationComman
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResponse;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "동네 인증", description = "동네 인증과 관련된 API")
 @RestController
 @RequiredArgsConstructor
 public class NeighborhoodVerificationController {
 
 	private final NeighborhoodVerificationUseCase neighborhoodVerificationUseCase;
 
+	@Operation(
+		summary = "동네 인증",
+		description = "사용자의 현재 위치를 기반으로 인증받고자 하는 동네 범위 안에 있는지 검증하고, 성공 시 해당 동네를 인증 동네로 등록합니다."
+	)
+	@ApiResponse(responseCode = "200", description = "동네 인증 성공")
 	@PostMapping("/neighborhood/verification")
 	public ResponseEntity<NeighborhoodVerificationResponse> verifyNeighborhood(
 		@RequestBody @Valid NeighborhoodVerificationRequest neighborhoodVerificationRequest,
-		@SessionAttribute(name = "login_user_id", required = false) Long userId) {
+		@Parameter(hidden = true) @SessionAttribute(name = "login_user_id", required = false) Long userId) {
 		NeighborhoodVerificationCommand neighborhoodVerificationCommand = toCommand(neighborhoodVerificationRequest);
 
 		NeighborhoodVerificationResponse response = neighborhoodVerificationUseCase.verifyAndRegisterNeighborhood(
