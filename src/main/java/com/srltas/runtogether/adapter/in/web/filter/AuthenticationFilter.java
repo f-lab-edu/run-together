@@ -1,5 +1,7 @@
 package com.srltas.runtogether.adapter.in.web.filter;
 
+import static com.srltas.runtogether.common.SessionAttribute.*;
+
 import java.io.IOException;
 
 import com.srltas.runtogether.adapter.out.session.SessionStorage;
@@ -34,7 +36,7 @@ public class AuthenticationFilter implements Filter {
 			UserSessionDTO userSessionDTO = sessionStorage.getUserFromSessionId(token);
 			if (userSessionDTO != null) {
 				HttpSession session = request.getSession(true);
-				session.setAttribute("USER_SESSION", userSessionDTO);
+				session.setAttribute(USER_SESSION, userSessionDTO);
 			}
 		}
 		filterChain.doFilter(request, response);
