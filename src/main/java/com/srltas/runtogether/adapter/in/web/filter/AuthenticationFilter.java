@@ -1,5 +1,6 @@
 package com.srltas.runtogether.adapter.in.web.filter;
 
+import static com.srltas.runtogether.common.AuthConstants.*;
 import static com.srltas.runtogether.common.SessionAttribute.*;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class AuthenticationFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest)servletRequest;
 		HttpServletResponse response = (HttpServletResponse)servletResponse;
 
-		String authorizationHeader = request.getHeader("Authorization");
+		String authorizationHeader = request.getHeader(AUTHORIZATION);
 		String token = extractToken(authorizationHeader);
 
 		if (token != null) {
@@ -43,8 +44,8 @@ public class AuthenticationFilter implements Filter {
 	}
 
 	private String extractToken(String authorizationHeader) {
-		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-			return authorizationHeader.substring(7);
+		if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_TOKEN_PREFIX)) {
+			return authorizationHeader.substring(BEARER_TOKEN_LENGTH);
 		}
 		return null;
 	}
