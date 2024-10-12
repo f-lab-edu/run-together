@@ -3,7 +3,6 @@ package com.srltas.runtogether.adapter.in;
 import static com.srltas.runtogether.adapter.in.web.dto.mapper.NeighborhoodVerificationMapper.*;
 import static com.srltas.runtogether.common.SessionAttribute.*;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,9 +37,6 @@ public class NeighborhoodVerificationController {
 	public ResponseEntity<NeighborhoodVerificationResponse> verifyNeighborhood(
 		@RequestBody @Valid NeighborhoodVerificationRequest neighborhoodVerificationRequest, HttpSession session) {
 		UserSessionDTO userSession = (UserSessionDTO)session.getAttribute(USER_SESSION);
-		if (userSession == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-		}
 
 		NeighborhoodVerificationCommand neighborhoodVerificationCommand = toCommand(neighborhoodVerificationRequest);
 

@@ -1,7 +1,9 @@
 package com.srltas.runtogether.adapter.in.web.filter;
 
 import static com.srltas.runtogether.common.AuthConstants.*;
-import static com.srltas.runtogether.common.SessionAttribute.*;
+import static com.srltas.runtogether.common.SessionAttribute.USER_SESSION;
+import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static java.util.Objects.isNull;
 
 import java.io.IOException;
 
@@ -23,20 +25,28 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	private final SessionStorage sessionStorage;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws
-		IOException,
-		ServletException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+		throws IOException, ServletException {
 		String authorizationHeader = request.getHeader(AUTHORIZATION);
 		String token = extractToken(authorizationHeader);
 
-		if (token != null) {
-			UserSessionDTO userSessionDTO = sessionStorage.getUserFromSessionId(token);
-			if (userSessionDTO != null) {
-				HttpSession session = request.getSession(true);
-				session.setAttribute(USER_SESSION, userSessionDTO);
-			}
+		if (isNull(token) || !authenticateUser(token, request)) {
+			response.sendError(SC_UNAUTHORIZED, "인증되지 않은 사용자입니다.");
+			return;
 		}
+
 		filterChain.doFilter(request, response);
+	}
+
+	private boolean authenticateUser(String token, HttpServletRequest req) {
+		UserSessionDTO userSessionDTO = sessionStorage.getUserFromSessionId(token);
+		if (userSessionDTO == null) {
+			return false;
+		}
+
+		HttpSession session = req.getSession(true);
+		session.setAttribute(USER_SESSION, userSessionDTO);
+		return true;
 	}
 
 	private String extractToken(String authorizationHeader) {
