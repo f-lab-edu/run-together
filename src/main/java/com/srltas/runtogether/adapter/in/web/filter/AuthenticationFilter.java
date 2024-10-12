@@ -1,7 +1,7 @@
 package com.srltas.runtogether.adapter.in.web.filter;
 
-import static com.srltas.runtogether.common.AuthConstants.*;
-import static com.srltas.runtogether.common.SessionAttribute.USER_SESSION;
+import static com.srltas.runtogether.adapter.in.web.common.AuthConstants.*;
+import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.USER_SESSION;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static java.util.Objects.isNull;
 

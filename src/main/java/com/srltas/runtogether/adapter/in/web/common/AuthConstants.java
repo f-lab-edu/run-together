@@ -1,4 +1,4 @@
-package com.srltas.runtogether.common;
+package com.srltas.runtogether.adapter.in.web.common;
 
 import lombok.experimental.UtilityClass;
 

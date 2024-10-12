@@ -1,7 +1,7 @@
 package com.srltas.runtogether.adapter.in;
 
+import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.USER_SESSION;
 import static com.srltas.runtogether.adapter.in.web.dto.mapper.NeighborhoodVerificationMapper.*;
-import static com.srltas.runtogether.common.SessionAttribute.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
