@@ -1,5 +1,7 @@
 package com.srltas.runtogether.config;
 
+import static com.srltas.runtogether.adapter.in.web.common.UrlConstants.*;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +21,7 @@ public class WebConfig {
 	public FilterRegistrationBean<AuthenticationFilter> sessionFilterRegistration() {
 		FilterRegistrationBean<AuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new AuthenticationFilter(sessionStorage));
-		registrationBean.addUrlPatterns("/neighborhood/verification");
+		registrationBean.addUrlPatterns(NEIGHBORHOOD_VERIFICATION);
 		registrationBean.setOrder(1);
 		return registrationBean;
 	}

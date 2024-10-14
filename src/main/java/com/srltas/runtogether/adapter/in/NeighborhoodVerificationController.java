@@ -1,6 +1,7 @@
 package com.srltas.runtogether.adapter.in;
 
 import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.USER_SESSION;
+import static com.srltas.runtogether.adapter.in.web.common.UrlConstants.*;
 import static com.srltas.runtogether.adapter.in.web.dto.mapper.NeighborhoodVerificationMapper.*;
 
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class NeighborhoodVerificationController {
 		description = "사용자의 현재 위치를 기반으로 인증받고자 하는 동네 범위 안에 있는지 검증하고, 성공 시 해당 동네를 인증 동네로 등록합니다."
 	)
 	@ApiResponse(responseCode = "200", description = "동네 인증 성공")
-	@PostMapping("/neighborhood/verification")
+	@PostMapping(NEIGHBORHOOD_VERIFICATION)
 	public ResponseEntity<NeighborhoodVerificationResponse> verifyNeighborhood(
 		@RequestBody @Valid NeighborhoodVerificationRequest neighborhoodVerificationRequest, HttpSession session) {
 		UserSessionDTO userSession = (UserSessionDTO)session.getAttribute(USER_SESSION);
