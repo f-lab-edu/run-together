@@ -29,24 +29,21 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		throws IOException, ServletException {
 		String authorizationHeader = request.getHeader(AUTHORIZATION);
 		String token = extractToken(authorizationHeader);
+		UserSessionDTO userSessionDTO;
 
-		if (isNull(token) || !authenticateUser(token, request)) {
+		if (isNull(token) || isNullUserSessionDTO(userSessionDTO = sessionStorage.getUserFromSessionId(token))) {
 			response.sendError(SC_UNAUTHORIZED, "인증되지 않은 사용자입니다.");
 			return;
 		}
 
+		HttpSession session = request.getSession(true);
+		session.setAttribute(USER_SESSION, userSessionDTO);
+
 		filterChain.doFilter(request, response);
 	}
 
-	private boolean authenticateUser(String token, HttpServletRequest req) {
-		UserSessionDTO userSessionDTO = sessionStorage.getUserFromSessionId(token);
-		if (userSessionDTO == null) {
-			return false;
-		}
-
-		HttpSession session = req.getSession(true);
-		session.setAttribute(USER_SESSION, userSessionDTO);
-		return true;
+	private boolean isNullUserSessionDTO(UserSessionDTO userSessionDTO) {
+		return userSessionDTO == null;
 	}
 
 	private String extractToken(String authorizationHeader) {
