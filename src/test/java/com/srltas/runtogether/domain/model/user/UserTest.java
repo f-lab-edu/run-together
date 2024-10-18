@@ -35,8 +35,7 @@ class UserTest {
 		user.verifiedNeighborhood(101);
 
 		// then
-		UserNeighborhood userNeighborhood = user.getUserNeighborhoods().stream().findFirst()
-			.orElseThrow(() -> new CommonException("동네가 등록되지 않았습니다."));
+		UserNeighborhood userNeighborhood = user.getUserNeighborhoods().get(101);
 		assertThat(userNeighborhood.isVerified()).isTrue();
 		assertThat(userNeighborhood.getVerifiedAt()).isNotNull();
 	}

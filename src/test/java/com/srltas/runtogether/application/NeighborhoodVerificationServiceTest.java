@@ -54,9 +54,10 @@ class NeighborhoodVerificationServiceTest {
 	@DisplayName("동네가 존재하는 경우")
 	class WhenNeighborhoodIsFound {
 
+		Neighborhood neighborhood = new Neighborhood(1, neighborhoodName, new Location(1L, 1L), 7.0);
+
 		@BeforeEach
 		public void setUp() {
-			Neighborhood neighborhood = new Neighborhood(1, neighborhoodName, new Location(1L, 1L), 7.0);
 			given(neighborhoodRepository.findById(1)).willReturn(Optional.of(neighborhood));
 		}
 
@@ -64,8 +65,9 @@ class NeighborhoodVerificationServiceTest {
 		@DisplayName("사용자가 동네 경계 안에 있을 때 동네 인증 성공")
 		public void testVerifyAndRegisterNeighborhood_WithinBoundary() {
 			User user = new User(1L, "testUser");
+			user.addNeighborhood(neighborhood);
 			Location location = new Location(1L, 1L);
-			given(userRepository.findById(1L)).willReturn(user);
+			given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
 			try (MockedStatic<LocationMapper> locationMapperMock = mockStatic(LocationMapper.class);
 				 MockedStatic<LocationUtils> locationUtilsMock = mockStatic(LocationUtils.class)) {
