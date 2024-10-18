@@ -3,6 +3,7 @@ package com.srltas.runtogether.application;
 import org.springframework.stereotype.Service;
 
 import com.srltas.runtogether.application.port.in.AddUserNeighborhood;
+import com.srltas.runtogether.application.port.in.AddUserNeighborhoodCommand;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.UserNotFoundException;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
@@ -20,10 +21,10 @@ public class UserNeighborhoodService implements AddUserNeighborhood {
 	private final NeighborhoodRepository neighborhoodRepository;
 
 	@Override
-	public void addNeighborhood(long userId, int neighborhoodId) {
-		User user = userRepository.findById(userId)
+	public void addNeighborhood(AddUserNeighborhoodCommand command) {
+		User user = userRepository.findById(command.userId())
 			.orElseThrow(UserNotFoundException::new);
-		Neighborhood neighborhood = neighborhoodRepository.findById(neighborhoodId)
+		Neighborhood neighborhood = neighborhoodRepository.findById(command.neighborhoodId())
 			.orElseThrow(NeighborhoodNotFoundException::new);
 
 		user.addNeighborhood(neighborhood);
