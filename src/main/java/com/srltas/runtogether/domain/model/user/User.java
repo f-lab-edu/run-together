@@ -1,20 +1,43 @@
 package com.srltas.runtogether.domain.model.user;
 
-import java.util.ArrayList;
-import java.util.List;
+import static java.util.Objects.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.srltas.runtogether.domain.exception.CommonException;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public class User {
 
 	private final Long id;
 	private final String name;
-	private List<VerifiedNeighborhood> verifiedNeighborhoods = new ArrayList<>();
+	private final Map<Integer, UserNeighborhood> userNeighborhoods = new HashMap<>();
 
-	public void addVerifiedNeighborhood(Neighborhood neighborhood) {
-		this.verifiedNeighborhoods.add(new VerifiedNeighborhood(neighborhood));
+	public void addNeighborhood(Neighborhood neighborhood) {
+		if (userNeighborhoods.size() >= 2) {
+			throw new CommonException("최대 2개의 동네만 등록할 수 있습니다.");
+		}
+
+		if (userNeighborhoods.containsKey(neighborhood.getId())) {
+			throw new CommonException("이미 등록된 동네입니다.");
+		}
+
+		userNeighborhoods.put(neighborhood.getId(), new UserNeighborhood(neighborhood));
+	}
+
+	public void verifiedNeighborhood(int neighborhoodId) {
+		UserNeighborhood userNeighborhood = userNeighborhoods.get(neighborhoodId);
+
+		if (isNull(userNeighborhood)) {
+			throw new CommonException("해당 동네가 등록되지 않았습니다.");
+		}
+
+		userNeighborhood.verifyNeighborhood();
 	}
 }

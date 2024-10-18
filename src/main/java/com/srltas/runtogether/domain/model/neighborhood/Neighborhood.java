@@ -4,18 +4,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class Neighborhood {
 
 	private final int id;
-
-	@Getter
 	private final String name;
-
-	@Getter
 	private final Location location;
-
 	private final double boundaryRadius;
 
 	public boolean isWithinBoundary(Location currentLocation) {
