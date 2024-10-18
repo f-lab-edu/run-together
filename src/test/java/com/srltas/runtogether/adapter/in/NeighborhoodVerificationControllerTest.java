@@ -1,11 +1,11 @@
 package com.srltas.runtogether.adapter.in;
 
+import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -20,9 +20,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.srltas.runtogether.adapter.in.web.dto.NeighborhoodVerificationRequest;
+import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResponse;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
+
+import jakarta.servlet.http.HttpSession;
 
 @ExtendWith(MockitoExtension.class)
 class NeighborhoodVerificationControllerTest {
@@ -30,36 +33,40 @@ class NeighborhoodVerificationControllerTest {
 	@Mock
 	private NeighborhoodVerificationUseCase neighborhoodVerificationUseCase;
 
+	@Mock
+	private HttpSession session;
+
+	@Mock
+	private NeighborhoodVerificationResponse neighborhoodVerificationResponse;
+
 	@InjectMocks
 	private NeighborhoodVerificationController neighborhoodVerificationController;
 
 	@ParameterizedTest
-	@MethodSource("provideNeighborhoodVerificationRequests")
-	@DisplayName("verifyNeighborhood 메서드에 대한 Parameterized 테스트")
-	void verifyNeighborhood_ShouldReturnOkResponse(NeighborhoodVerificationRequest request, Long userId) {
+	@MethodSource("provideRequestsForSuccess")
+	@DisplayName("세션에 사용자 정보가 있을 때 동네 인증 성공 여부 확인")
+	void testVerifyNeighborhood_Success(NeighborhoodVerificationRequest request, UserSessionDTO userSessionDTO) {
 		// given
-		NeighborhoodVerificationCommand command = new NeighborhoodVerificationCommand(request.latitude(),
-			request.longitude(), request.neighborhoodId());
-		NeighborhoodVerificationResponse expectedResponse = new NeighborhoodVerificationResponse(
-			UUID.randomUUID().toString(), true, LocalDateTime.now().toString());
-
-		given(neighborhoodVerificationUseCase.verifyAndRegisterNeighborhood(userId, command)).willReturn(
-			expectedResponse);
+		when(session.getAttribute(USER_SESSION)).thenReturn(userSessionDTO);
+		when(neighborhoodVerificationUseCase.verifyAndRegisterNeighborhood(eq(userSessionDTO.userId()),
+			any(NeighborhoodVerificationCommand.class))).thenReturn(neighborhoodVerificationResponse);
 
 		// when
-		ResponseEntity<NeighborhoodVerificationResponse> response = neighborhoodVerificationController.verifyNeighborhood(
-			request, userId);
+		ResponseEntity<NeighborhoodVerificationResponse> response = neighborhoodVerificationController
+			.verifyNeighborhood(request, session);
 
 		// then
-		verify(neighborhoodVerificationUseCase).verifyAndRegisterNeighborhood(userId, command);
 		assertThat(response.getStatusCode(), is(HttpStatus.OK));
-		assertThat(response.getBody(), is(expectedResponse));
+		assertThat(response.getBody(), is(neighborhoodVerificationResponse));
 	}
 
-	static Stream<Arguments> provideNeighborhoodVerificationRequests() {
+	static Stream<Arguments> provideRequestsForSuccess() {
 		return Stream.of(
-			Arguments.of(new NeighborhoodVerificationRequest(37.579617, 126.977041, 1), 100L),
-			Arguments.of(new NeighborhoodVerificationRequest(37.556201, 126.972286, 2), 101L),
-			Arguments.of(new NeighborhoodVerificationRequest(37.497911, 127.027618, 3), 102L));
+			Arguments.of(new NeighborhoodVerificationRequest(37.579617, 126.977041, 1),
+				new UserSessionDTO(123L, "user1")),
+			Arguments.of(new NeighborhoodVerificationRequest(37.556201, 126.972286, 2),
+				new UserSessionDTO(456L, "user2")),
+			Arguments.of(new NeighborhoodVerificationRequest(37.497911, 127.027618, 3),
+				new UserSessionDTO(789L, "user3")));
 	}
 }
