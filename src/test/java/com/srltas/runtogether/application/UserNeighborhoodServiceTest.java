@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.srltas.runtogether.application.port.in.AddUserNeighborhoodCommand;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
@@ -38,12 +39,13 @@ class UserNeighborhoodServiceTest {
 		User user = mock(User.class);
 		Neighborhood neighborhood = new Neighborhood(neighborhoodId, "Gangnam",
 			new Location(37.505858, 127.058319), 10.0);
+		AddUserNeighborhoodCommand command = new AddUserNeighborhoodCommand(userId, neighborhoodId);
 
 		when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 		when(neighborhoodRepository.findById(neighborhoodId)).thenReturn(Optional.of(neighborhood));
 
 		// when
-		userNeighborhoodService.addNeighborhood(userId, neighborhoodId);
+		userNeighborhoodService.addNeighborhood(command);
 
 		// then
 		verify(user).addNeighborhood(neighborhood);
