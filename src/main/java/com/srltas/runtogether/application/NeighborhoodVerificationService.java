@@ -12,6 +12,7 @@ import com.srltas.runtogether.application.port.in.NeighborhoodVerificationRespon
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
+import com.srltas.runtogether.domain.exception.UserNotFoundException;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
@@ -36,8 +37,9 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 		Location currentLocation = neighborhoodVerificationCommandToDomain(command);
 
 		if (neighborhood.isWithinBoundary(currentLocation)) {
-			User user = userRepository.findById(userId);
-			user.addVerifiedNeighborhood(neighborhood);
+			User user = userRepository.findById(userId)
+					.orElseThrow(UserNotFoundException::new);
+			user.verifiedNeighborhood(neighborhood.getId());
 			userRepository.save(user);
 
 			return NeighborhoodVerificationResponse.builder()
