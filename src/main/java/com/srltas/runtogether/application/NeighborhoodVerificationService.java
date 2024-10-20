@@ -17,6 +17,7 @@ import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
 import com.srltas.runtogether.domain.model.user.User;
+import com.srltas.runtogether.domain.model.user.UserNeighborhood;
 import com.srltas.runtogether.domain.model.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,8 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 		if (neighborhood.isWithinBoundary(currentLocation)) {
 			User user = userRepository.findById(userId)
 					.orElseThrow(UserNotFoundException::new);
-			user.verifiedNeighborhood(neighborhood.getId());
+
+			UserNeighborhood userNeighborhood = user.verifiedNeighborhood(neighborhood.getId());
 			userRepository.save(user);
 
 			return NeighborhoodVerificationResult.builder()

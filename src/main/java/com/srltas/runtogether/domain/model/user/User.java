@@ -31,7 +31,7 @@ public class User {
 		userNeighborhoods.put(neighborhood.getId(), new UserNeighborhood(neighborhood));
 	}
 
-	public void verifiedNeighborhood(int neighborhoodId) {
+	public UserNeighborhood verifiedNeighborhood(int neighborhoodId) {
 		UserNeighborhood userNeighborhood = userNeighborhoods.get(neighborhoodId);
 
 		if (isNull(userNeighborhood)) {
@@ -39,5 +39,6 @@ public class User {
 		}
 
 		userNeighborhood.verifyNeighborhood();
+		return userNeighborhood;
 	}
 }
