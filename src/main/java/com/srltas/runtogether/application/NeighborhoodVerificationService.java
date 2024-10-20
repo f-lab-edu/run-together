@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
-import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResponse;
+import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResult;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
@@ -29,7 +29,7 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 	private final UserRepository userRepository;
 
 	@Override
-	public NeighborhoodVerificationResponse verifyAndRegisterNeighborhood(long userId,
+	public NeighborhoodVerificationResult verifyAndRegisterNeighborhood(long userId,
 		NeighborhoodVerificationCommand command) {
 		Neighborhood neighborhood = neighborhoodRepository.findById(command.neighborhoodId())
 			.orElseThrow(NeighborhoodNotFoundException::new);
@@ -42,7 +42,7 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 			user.verifiedNeighborhood(neighborhood.getId());
 			userRepository.save(user);
 
-			return NeighborhoodVerificationResponse.builder()
+			return NeighborhoodVerificationResult.builder()
 				.verifyId(UUID.randomUUID().toString())
 				.verified(true)
 				.verificationTime(LocalDateTime.now().toString())
