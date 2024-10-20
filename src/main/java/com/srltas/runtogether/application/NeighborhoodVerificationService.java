@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResult;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
+import com.srltas.runtogether.application.port.out.VerifyUserNeighborhoodPort;
+import com.srltas.runtogether.application.port.out.dao.VerifyUserNeighborhoodDAO;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
 import com.srltas.runtogether.domain.exception.UserNotFoundException;
@@ -28,6 +30,7 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 
 	private final NeighborhoodRepository neighborhoodRepository;
 	private final UserRepository userRepository;
+	private final VerifyUserNeighborhoodPort verifyUserNeighborhoodPort;
 
 	@Override
 	public NeighborhoodVerificationResult verifyAndRegisterNeighborhood(long userId,
@@ -42,12 +45,14 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 					.orElseThrow(UserNotFoundException::new);
 
 			UserNeighborhood userNeighborhood = user.verifiedNeighborhood(neighborhood.getId());
-			userRepository.save(user);
+
+			verifyUserNeighborhoodPort.verify(new VerifyUserNeighborhoodDAO(user.getId(),
+				neighborhood.getId(), true, userNeighborhood.getVerifiedAt()));
 
 			return NeighborhoodVerificationResult.builder()
 				.verifyId(UUID.randomUUID().toString())
 				.verified(true)
-				.verificationTime(LocalDateTime.now().toString())
+				.verificationTime(userNeighborhood.getVerifiedAt().toString())
 				.build();
 		} else {
 			throw new OutOfNeighborhoodBoundaryException();
