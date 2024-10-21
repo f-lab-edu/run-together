@@ -2,7 +2,6 @@ package com.srltas.runtogether.application;
 
 import static com.srltas.runtogether.application.mappper.LocationMapper.*;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResult;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
+import com.srltas.runtogether.application.port.out.VerifyUserNeighborhoodCommand;
 import com.srltas.runtogether.application.port.out.VerifyUserNeighborhoodPort;
-import com.srltas.runtogether.application.port.out.dao.VerifyUserNeighborhoodDAO;
 import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
 import com.srltas.runtogether.domain.exception.UserNotFoundException;
@@ -46,8 +45,8 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 
 			UserNeighborhood userNeighborhood = user.verifiedNeighborhood(neighborhood.getId());
 
-			verifyUserNeighborhoodPort.verify(new VerifyUserNeighborhoodDAO(user.getId(),
-				neighborhood.getId(), true, userNeighborhood.getVerifiedAt()));
+			verifyUserNeighborhoodPort.verify(new VerifyUserNeighborhoodCommand(
+				user.getId(), neighborhood.getId(), userNeighborhood.isVerified(), userNeighborhood.getVerifiedAt()));
 
 			return NeighborhoodVerificationResult.builder()
 				.verifyId(UUID.randomUUID().toString())
