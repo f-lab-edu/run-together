@@ -1,10 +1,11 @@
 package com.srltas.runtogether.adapter.out.persistence.mybatis;
 
+import static com.srltas.runtogether.adapter.out.persistence.mybatis.converter.VerifyUserNeighborhoodConverter.*;
+
 import org.springframework.stereotype.Repository;
 
 import com.srltas.runtogether.application.port.out.VerifyUserNeighborhoodCommand;
 import com.srltas.runtogether.application.port.out.VerifyUserNeighborhoodPort;
-import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.VerifyUserNeighborhoodDAO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,13 +17,6 @@ public class UserNeighborhoodAdapter implements VerifyUserNeighborhoodPort {
 
 	@Override
 	public void verify(VerifyUserNeighborhoodCommand command) {
-		VerifyUserNeighborhoodDAO dao = VerifyUserNeighborhoodDAO.builder()
-			.userId(command.userId())
-			.neighborhoodId(command.neighborhoodId())
-			.verified(command.verified())
-			.verifiedAt(command.verifiedAt())
-			.build();
-
-		userNeighborhoodMapper.verify(dao);
+		userNeighborhoodMapper.verify(toDAO(command));
 	}
 }
