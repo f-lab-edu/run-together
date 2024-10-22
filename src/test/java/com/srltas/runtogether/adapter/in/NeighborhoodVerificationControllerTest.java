@@ -22,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import com.srltas.runtogether.adapter.in.web.dto.NeighborhoodVerificationRequest;
 import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
-import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResponse;
+import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResult;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
 
 import jakarta.servlet.http.HttpSession;
@@ -37,7 +37,7 @@ class NeighborhoodVerificationControllerTest {
 	private HttpSession session;
 
 	@Mock
-	private NeighborhoodVerificationResponse neighborhoodVerificationResponse;
+	private NeighborhoodVerificationResult neighborhoodVerificationResult;
 
 	@InjectMocks
 	private NeighborhoodVerificationController neighborhoodVerificationController;
@@ -49,15 +49,15 @@ class NeighborhoodVerificationControllerTest {
 		// given
 		when(session.getAttribute(USER_SESSION)).thenReturn(userSessionDTO);
 		when(neighborhoodVerificationUseCase.verifyAndRegisterNeighborhood(eq(userSessionDTO.userId()),
-			any(NeighborhoodVerificationCommand.class))).thenReturn(neighborhoodVerificationResponse);
+			any(NeighborhoodVerificationCommand.class))).thenReturn(neighborhoodVerificationResult);
 
 		// when
-		ResponseEntity<NeighborhoodVerificationResponse> response = neighborhoodVerificationController
+		ResponseEntity<NeighborhoodVerificationResult> result = neighborhoodVerificationController
 			.verifyNeighborhood(request, session);
 
 		// then
-		assertThat(response.getStatusCode(), is(HttpStatus.OK));
-		assertThat(response.getBody(), is(neighborhoodVerificationResponse));
+		assertThat(result.getStatusCode(), is(HttpStatus.OK));
+		assertThat(result.getBody(), is(neighborhoodVerificationResult));
 	}
 
 	static Stream<Arguments> provideRequestsForSuccess() {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.srltas.runtogether.adapter.in.web.dto.NeighborhoodVerificationRequest;
 import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
-import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResponse;
+import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResult;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,15 +35,15 @@ public class NeighborhoodVerificationController {
 	)
 	@ApiResponse(responseCode = "200", description = "동네 인증 성공")
 	@PostMapping(NEIGHBORHOOD_VERIFICATION)
-	public ResponseEntity<NeighborhoodVerificationResponse> verifyNeighborhood(
+	public ResponseEntity<NeighborhoodVerificationResult> verifyNeighborhood(
 		@RequestBody @Valid NeighborhoodVerificationRequest neighborhoodVerificationRequest, HttpSession session) {
 		UserSessionDTO userSession = (UserSessionDTO)session.getAttribute(USER_SESSION);
 
 		NeighborhoodVerificationCommand neighborhoodVerificationCommand = toCommand(neighborhoodVerificationRequest);
 
-		NeighborhoodVerificationResponse response = neighborhoodVerificationUseCase.verifyAndRegisterNeighborhood(
+		NeighborhoodVerificationResult result = neighborhoodVerificationUseCase.verifyAndRegisterNeighborhood(
 			userSession.userId(), neighborhoodVerificationCommand);
 
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(result);
 	}
 }
