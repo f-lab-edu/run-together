@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,7 @@ import com.srltas.runtogether.domain.model.neighborhood.LocationUtils;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
 import com.srltas.runtogether.domain.model.user.User;
+import com.srltas.runtogether.domain.model.user.UserNeighborhood;
 import com.srltas.runtogether.domain.model.user.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,9 +66,13 @@ class NeighborhoodVerificationServiceTest {
 		@Test
 		@DisplayName("사용자가 동네 경계 안에 있을 때 동네 인증 성공")
 		public void testVerifyAndRegisterNeighborhood_WithinBoundary() {
-			User user = new User(1L, "testUser");
-			user.addNeighborhood(neighborhood);
-			Location location = new Location(1L, 1L);
+			User user = mock(User.class);
+			UserNeighborhood userNeighborhood = mock(UserNeighborhood.class);
+			Location location = mock(Location.class);
+
+			given(user.getId()).willReturn(1L);
+			given(user.verifiedNeighborhood(neighborhood.getId())).willReturn(userNeighborhood);
+			given(userNeighborhood.getVerifiedAt()).willReturn(LocalDateTime.now());
 			given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
 			try (MockedStatic<LocationMapper> locationMapperMock = mockStatic(LocationMapper.class);
@@ -82,7 +88,7 @@ class NeighborhoodVerificationServiceTest {
 
 				neighborhoodVerificationService.verifyAndRegisterNeighborhood(1L, neighborhoodVerificationCommand);
 			}
-			then(userRepository).should().save(user);
+			then(userRepository).should().updateVerifiedUserNeighborhood(1L, userNeighborhood);
 		}
 
 		@Test

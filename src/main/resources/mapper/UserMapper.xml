@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.srltas.runtogether.adapter.out.persistence.mybatis.MybatisUserMapper">
+
+    <update id="updateVerifiedUserNeighborhood" parameterType="VerifiedUserNeighborhoodDAO">
+        UPDATE user_neighborhoods
+        SET verified = #{verified}, verified_at = #{verifiedAt}
+        WHERE user_id = #{userId} AND neighborhood_id = #{neighborhoodId}
+    </update>
+</mapper>

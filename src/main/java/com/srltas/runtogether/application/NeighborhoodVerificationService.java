@@ -2,7 +2,6 @@ package com.srltas.runtogether.application;
 
 import static com.srltas.runtogether.application.mappper.LocationMapper.*;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
 import com.srltas.runtogether.domain.model.user.User;
+import com.srltas.runtogether.domain.model.user.UserNeighborhood;
 import com.srltas.runtogether.domain.model.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -39,13 +39,14 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 		if (neighborhood.isWithinBoundary(currentLocation)) {
 			User user = userRepository.findById(userId)
 					.orElseThrow(UserNotFoundException::new);
-			user.verifiedNeighborhood(neighborhood.getId());
-			userRepository.save(user);
+
+			UserNeighborhood userNeighborhood = user.verifiedNeighborhood(neighborhood.getId());
+			userRepository.updateVerifiedUserNeighborhood(user.getId(), userNeighborhood);
 
 			return NeighborhoodVerificationResult.builder()
 				.verifyId(UUID.randomUUID().toString())
 				.verified(true)
-				.verificationTime(LocalDateTime.now().toString())
+				.verificationTime(userNeighborhood.getVerifiedAt().toString())
 				.build();
 		} else {
 			throw new OutOfNeighborhoodBoundaryException();
