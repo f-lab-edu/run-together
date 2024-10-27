@@ -4,6 +4,11 @@
 
 <mapper namespace="com.srltas.runtogether.adapter.out.persistence.mybatis.MybatisUserMapper">
 
+    <insert id="addUserNeighborhood" parameterType="AddUserNeighborhoodDAO">
+        INSERT INTO user_neighborhoods (user_id, neighborhood_id, verified, verified_at)
+        VALUES (#{userId}, #{neighborhoodId}, #{verified}, #{verifiedAt})
+    </insert>
+
     <update id="updateVerifiedUserNeighborhood" parameterType="VerifiedUserNeighborhoodDAO">
         UPDATE user_neighborhoods
         SET verified = #{verified}, verified_at = #{verifiedAt}

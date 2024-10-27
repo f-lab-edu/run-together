@@ -30,6 +30,11 @@ public class MybatisUserRepository implements UserRepository {
 	}
 
 	@Override
+	public void addUserNeighborhood(long userId, int neighborhoodId) {
+		mybatisUserMapper.addUserNeighborhood(toAddUserNeighborhood(userId, neighborhoodId));
+	}
+
+	@Override
 	public void updateVerifiedUserNeighborhood(long userId, UserNeighborhood userNeighborhood) {
 		mybatisUserMapper.updateVerifiedUserNeighborhood(toVerifiedUserNeighborhoodDAO(userId, userNeighborhood));
 	}

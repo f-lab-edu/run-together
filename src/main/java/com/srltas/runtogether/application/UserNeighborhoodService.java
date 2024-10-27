@@ -28,6 +28,6 @@ public class UserNeighborhoodService implements AddUserNeighborhood {
 			.orElseThrow(NeighborhoodNotFoundException::new);
 
 		user.addNeighborhood(neighborhood);
-		userRepository.save(user);
+		userRepository.addUserNeighborhood(user.getId(), neighborhood.getId());
 	}
 }
