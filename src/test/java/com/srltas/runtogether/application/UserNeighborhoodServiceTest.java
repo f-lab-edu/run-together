@@ -1,5 +1,6 @@
 package com.srltas.runtogether.application;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -36,9 +37,11 @@ class UserNeighborhoodServiceTest {
 		// given
 		long userId = 1L;
 		int neighborhoodId = 101;
-		User user = mock(User.class);
+
+		User user = new User(userId, "testUser");
 		Neighborhood neighborhood = new Neighborhood(neighborhoodId, "Gangnam",
 			new Location(37.505858, 127.058319), 10.0);
+
 		AddUserNeighborhoodCommand command = new AddUserNeighborhoodCommand(userId, neighborhoodId);
 
 		when(userRepository.findById(userId)).thenReturn(Optional.of(user));
@@ -48,7 +51,7 @@ class UserNeighborhoodServiceTest {
 		userNeighborhoodService.addNeighborhood(command);
 
 		// then
-		verify(user).addNeighborhood(neighborhood);
-		verify(userRepository).save(user);
+		assertTrue(user.getUserNeighborhoods().containsKey(neighborhoodId));
+		verify(userRepository).addUserNeighborhood(userId, neighborhoodId);
 	}
 }
