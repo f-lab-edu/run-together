@@ -1,6 +1,6 @@
 package com.srltas.runtogether.adapter.in;
 
-import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.*;
+import static com.srltas.runtogether.adapter.in.web.common.SessionUtils.*;
 import static com.srltas.runtogether.adapter.in.web.common.UrlConstants.*;
 import static org.springframework.http.HttpStatus.*;
 
@@ -36,7 +36,7 @@ public class UserNeighborhoodController {
 	@PostMapping(USER_NEIGHBORHOOD_REGISTRATION)
 	public ResponseEntity<Void> addUserNeighborhood(
 		@RequestBody @Valid AddUserNeighborhoodRequest request, HttpSession session) {
-		UserSessionDTO userSession = (UserSessionDTO)session.getAttribute(USER_SESSION);
+		UserSessionDTO userSession = getUserSessionDTO(session);
 		addUserNeighborhood.addNeighborhood(
 			new AddUserNeighborhoodCommand(userSession.userId(), request.neighborhoodId()));
 		return new ResponseEntity<>(CREATED);
