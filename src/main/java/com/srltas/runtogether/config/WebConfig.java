@@ -21,7 +21,7 @@ public class WebConfig {
 	public FilterRegistrationBean<AuthenticationFilter> sessionFilterRegistration() {
 		FilterRegistrationBean<AuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new AuthenticationFilter(sessionStorage));
-		registrationBean.addUrlPatterns(NEIGHBORHOOD_VERIFICATION, USER_NEIGHBORHOOD_REGISTRATION);
+		registrationBean.setUrlPatterns(getAuthRequiredUrls());
 		registrationBean.setOrder(1);
 		return registrationBean;
 	}
