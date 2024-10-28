@@ -2,7 +2,6 @@ package com.srltas.runtogether.adapter.in;
 
 import static com.srltas.runtogether.adapter.in.web.common.SessionUtils.*;
 import static com.srltas.runtogether.adapter.in.web.common.UrlConstants.*;
-import static org.springframework.http.HttpStatus.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +38,6 @@ public class UserNeighborhoodController {
 		UserSessionDTO userSession = getUserSessionDTO(session);
 		addUserNeighborhood.addNeighborhood(
 			new AddUserNeighborhoodCommand(userSession.userId(), request.neighborhoodId()));
-		return new ResponseEntity<>(CREATED);
+		return ResponseEntity.ok().build();
 	}
 }
