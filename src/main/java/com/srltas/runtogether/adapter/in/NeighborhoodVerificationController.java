@@ -1,6 +1,6 @@
 package com.srltas.runtogether.adapter.in;
 
-import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.USER_SESSION;
+import static com.srltas.runtogether.adapter.in.web.common.SessionUtils.*;
 import static com.srltas.runtogether.adapter.in.web.common.UrlConstants.*;
 import static com.srltas.runtogether.adapter.in.web.dto.mapper.NeighborhoodVerificationMapper.*;
 
@@ -37,7 +37,7 @@ public class NeighborhoodVerificationController {
 	@PostMapping(NEIGHBORHOOD_VERIFICATION)
 	public ResponseEntity<NeighborhoodVerificationResult> verifyNeighborhood(
 		@RequestBody @Valid NeighborhoodVerificationRequest neighborhoodVerificationRequest, HttpSession session) {
-		UserSessionDTO userSession = (UserSessionDTO)session.getAttribute(USER_SESSION);
+		UserSessionDTO userSession = getUserSessionDTO(session);
 
 		NeighborhoodVerificationCommand neighborhoodVerificationCommand = toCommand(neighborhoodVerificationRequest);
 
