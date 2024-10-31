@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.AddUserNeighborhoodDAO;
 import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.VerifiedUserNeighborhoodDAO;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
@@ -34,5 +35,16 @@ class MybatisUserRepositoryTest {
 		mybatisUserRepository.updateVerifiedUserNeighborhood(userId, userNeighborhood);
 
 		verify(mybatisUserMapper).updateVerifiedUserNeighborhood(any(VerifiedUserNeighborhoodDAO.class));
+	}
+
+	@Test
+	@DisplayName("내 동네 등록 SQL 실행 위임 검증")
+	void shouldCallMapperToAddUserNeighborhood() {
+		long userId = 1L;
+		int neighborhoodId = 2;
+
+		mybatisUserRepository.addUserNeighborhood(userId, neighborhoodId);
+
+		verify(mybatisUserMapper).addUserNeighborhood(any(AddUserNeighborhoodDAO.class));
 	}
 }
