@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResult;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
-import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
-import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
-import com.srltas.runtogether.domain.exception.UserNotFoundException;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
+import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodNotFoundException;
+import com.srltas.runtogether.domain.model.neighborhood.exception.OutOfNeighborhoodBoundaryException;
 import com.srltas.runtogether.domain.model.user.User;
 import com.srltas.runtogether.domain.model.user.UserNeighborhood;
 import com.srltas.runtogether.domain.model.user.UserRepository;
+import com.srltas.runtogether.domain.model.user.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
