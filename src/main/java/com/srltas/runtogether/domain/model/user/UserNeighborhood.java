@@ -2,8 +2,8 @@ package com.srltas.runtogether.domain.model.user;
 
 import java.time.LocalDateTime;
 
-import com.srltas.runtogether.domain.exception.CommonException;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
+import com.srltas.runtogether.domain.model.neighborhood.exception.AlreadyVerifiedNeighborhoodException;
 
 import lombok.Getter;
 
@@ -21,7 +21,7 @@ public class UserNeighborhood {
 
 	public void verifyNeighborhood() {
 		if (verified) {
-			throw new CommonException("이미 인증된 동네입니다.");
+			throw new AlreadyVerifiedNeighborhoodException();
 		}
 		verified = true;
 		verifiedAt = LocalDateTime.now();
