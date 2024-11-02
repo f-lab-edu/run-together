@@ -19,7 +19,7 @@ public class MybatisUserRepository implements UserRepository {
 	private final MybatisUserMapper mybatisUserMapper;
 
 	@Override
-	public Optional<User> findById(long id) {
+	public Optional<User> findById(String id) {
 		// TODO 사용자 조회 구현
 		return Optional.empty();
 	}
@@ -30,12 +30,12 @@ public class MybatisUserRepository implements UserRepository {
 	}
 
 	@Override
-	public void addUserNeighborhood(long userId, int neighborhoodId) {
+	public void addUserNeighborhood(String userId, String neighborhoodId) {
 		mybatisUserMapper.addUserNeighborhood(toAddUserNeighborhood(userId, neighborhoodId));
 	}
 
 	@Override
-	public void updateVerifiedUserNeighborhood(long userId, UserNeighborhood userNeighborhood) {
+	public void updateVerifiedUserNeighborhood(String userId, UserNeighborhood userNeighborhood) {
 		mybatisUserMapper.updateVerifiedUserNeighborhood(toVerifiedUserNeighborhoodDAO(userId, userNeighborhood));
 	}
 }

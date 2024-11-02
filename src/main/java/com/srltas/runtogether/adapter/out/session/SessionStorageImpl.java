@@ -1,5 +1,7 @@
 package com.srltas.runtogether.adapter.out.session;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,7 +12,7 @@ public class SessionStorageImpl implements SessionStorage {
 
 	@Override
 	public UserSessionDTO getUserFromSessionId(String sessionId) {
-		return new UserSessionDTO(101L, "user_name");
+		return new UserSessionDTO("usr_" + UUID.randomUUID(), "user_name");
 	}
 
 	@Override

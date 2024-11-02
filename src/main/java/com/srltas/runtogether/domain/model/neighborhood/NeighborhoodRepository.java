@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NeighborhoodRepository {
-	Optional<Neighborhood> findById(int neighborhoodId);
+	Optional<Neighborhood> findById(String neighborhoodId);
 }

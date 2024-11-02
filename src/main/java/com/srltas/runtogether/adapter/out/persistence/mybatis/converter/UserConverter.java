@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserConverter {
 
-	public AddUserNeighborhoodDAO toAddUserNeighborhood(long userId, int neighborhoodId) {
+	public AddUserNeighborhoodDAO toAddUserNeighborhood(String userId, String neighborhoodId) {
 		return AddUserNeighborhoodDAO.builder()
 			.userId(userId)
 			.neighborhoodId(neighborhoodId)
@@ -18,7 +18,7 @@ public class UserConverter {
 			.build();
 	}
 
-	public VerifiedUserNeighborhoodDAO toVerifiedUserNeighborhoodDAO(long userId, UserNeighborhood userNeighborhood) {
+	public VerifiedUserNeighborhoodDAO toVerifiedUserNeighborhoodDAO(String userId, UserNeighborhood userNeighborhood) {
 		return VerifiedUserNeighborhoodDAO.builder()
 			.userId(userId)
 			.neighborhoodId(userNeighborhood.getNeighborhood().getId())

@@ -3,7 +3,6 @@ package com.srltas.runtogether.adapter.in.web.dto;
 import org.hibernate.validator.constraints.Range;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 
 public record NeighborhoodVerificationRequest(
 
@@ -16,7 +15,6 @@ public record NeighborhoodVerificationRequest(
 	double longitude,
 
 	@NotNull
-	@PositiveOrZero(message = "동네 ID는 0 이상의 값이어야 합니다.")
-	int neighborhoodId
+	String neighborhoodId
 ) {
 }

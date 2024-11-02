@@ -6,6 +6,6 @@ import lombok.Builder;
 public record NeighborhoodVerificationCommand(
 	double latitude,
 	double longitude,
-	int neighborhoodId
+	String neighborhoodId
 ) {
 }

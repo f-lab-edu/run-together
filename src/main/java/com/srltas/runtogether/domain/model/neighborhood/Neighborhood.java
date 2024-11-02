@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Neighborhood {
 
-	private final int id;
+	private final String id;
 	private final String name;
 	private final Location location;
 	private final double boundaryRadius;
