@@ -1,11 +1,13 @@
 package com.srltas.runtogether.adapter.in;
 
 import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.*;
+import static com.srltas.runtogether.testutil.TestIdGenerator.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;
 
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -62,11 +64,11 @@ class NeighborhoodVerificationControllerTest {
 
 	static Stream<Arguments> provideRequestsForSuccess() {
 		return Stream.of(
-			Arguments.of(new NeighborhoodVerificationRequest(37.579617, 126.977041, 1),
-				new UserSessionDTO(123L, "user1")),
-			Arguments.of(new NeighborhoodVerificationRequest(37.556201, 126.972286, 2),
-				new UserSessionDTO(456L, "user2")),
-			Arguments.of(new NeighborhoodVerificationRequest(37.497911, 127.027618, 3),
-				new UserSessionDTO(789L, "user3")));
+			Arguments.of(new NeighborhoodVerificationRequest(37.579617, 126.977041, generateNeighborhoodId()),
+				new UserSessionDTO(generateUserId(), "user1")),
+			Arguments.of(new NeighborhoodVerificationRequest(37.556201, 126.972286, generateNeighborhoodId()),
+				new UserSessionDTO(generateUserId() + UUID.randomUUID(), "user2")),
+			Arguments.of(new NeighborhoodVerificationRequest(37.497911, 127.027618, generateNeighborhoodId()),
+				new UserSessionDTO(generateUserId(), "user3")));
 	}
 }

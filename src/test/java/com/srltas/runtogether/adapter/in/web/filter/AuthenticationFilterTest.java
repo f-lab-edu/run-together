@@ -2,6 +2,7 @@ package com.srltas.runtogether.adapter.in.web.filter;
 
 import static com.srltas.runtogether.adapter.in.web.common.AuthConstants.*;
 import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.*;
+import static com.srltas.runtogether.testutil.TestIdGenerator.*;
 import static jakarta.servlet.http.HttpServletResponse.*;
 import static org.mockito.Mockito.*;
 
@@ -51,7 +52,7 @@ class AuthenticationFilterTest {
 	@DisplayName("유효한 토큰을 통해 사용자가 인증되는지 확인")
 	void testValidToken_UserAuthenticated() throws ServletException, IOException {
 		// given
-		UserSessionDTO userSessionDTO = new UserSessionDTO(123L, "testUserName");
+		UserSessionDTO userSessionDTO = new UserSessionDTO(generateUserId(), "testUserName");
 		when(request.getHeader(AUTHORIZATION)).thenReturn(BEARER_TOKEN_PREFIX + VALID_TOKEN);
 		when(sessionStorage.getUserFromSessionId(VALID_TOKEN)).thenReturn(userSessionDTO);
 		when(request.getSession(true)).thenReturn(session);

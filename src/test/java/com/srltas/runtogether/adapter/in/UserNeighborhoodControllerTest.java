@@ -1,6 +1,7 @@
 package com.srltas.runtogether.adapter.in;
 
 import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.*;
+import static com.srltas.runtogether.testutil.TestIdGenerator.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.*;
@@ -36,13 +37,13 @@ class UserNeighborhoodControllerTest {
 	@Test
 	@DisplayName("내 동네 등록 성공")
 	void testAddUserNeighborhoodSuccess() {
-		AddUserNeighborhoodRequest request = new AddUserNeighborhoodRequest(100);
-		UserSessionDTO userSessionDTO = new UserSessionDTO(1L, "user1");
+		AddUserNeighborhoodRequest request = new AddUserNeighborhoodRequest(generateNeighborhoodId());
+		UserSessionDTO userSessionDTO = new UserSessionDTO(generateUserId(), "user1");
 		given(session.getAttribute(USER_SESSION)).willReturn(userSessionDTO);
 
 		ResponseEntity<Void> response = userNeighborhoodController.addUserNeighborhood(request, session);
 
-		assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
+		assertThat(response.getStatusCode(), is(HttpStatus.OK));
 		verify(addUserNeighborhood).addNeighborhood(
 			new AddUserNeighborhoodCommand(userSessionDTO.userId(), request.neighborhoodId()));
 	}

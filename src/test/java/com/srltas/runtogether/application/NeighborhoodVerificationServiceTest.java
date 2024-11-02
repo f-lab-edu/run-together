@@ -1,5 +1,6 @@
 package com.srltas.runtogether.application;
 
+import static com.srltas.runtogether.testutil.TestIdGenerator.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,24 +44,20 @@ class NeighborhoodVerificationServiceTest {
 	@InjectMocks
 	private NeighborhoodVerificationService neighborhoodVerificationService;
 
-	private String neighborhoodName;
-	private NeighborhoodVerificationCommand neighborhoodVerificationCommand;
-
-	@BeforeEach
-	public void setUp() {
-		neighborhoodName = "Gangnam";
-		neighborhoodVerificationCommand = new NeighborhoodVerificationCommand(1L, 1L, 1);
-	}
+	private final String userId = generateUserId();
+	private final String neighborhoodId = generateNeighborhoodId();
+	private final NeighborhoodVerificationCommand neighborhoodVerificationCommand = new NeighborhoodVerificationCommand(
+		1L, 1L, neighborhoodId);
 
 	@Nested
 	@DisplayName("동네가 존재하는 경우")
 	class WhenNeighborhoodIsFound {
-
-		Neighborhood neighborhood = new Neighborhood(1, neighborhoodName, new Location(1L, 1L), 7.0);
+		Neighborhood neighborhood = new Neighborhood(neighborhoodId,
+			"Gangnam", new Location(1L, 1L), 7.0);
 
 		@BeforeEach
 		public void setUp() {
-			given(neighborhoodRepository.findById(1)).willReturn(Optional.of(neighborhood));
+			given(neighborhoodRepository.findById(neighborhoodId)).willReturn(Optional.of(neighborhood));
 		}
 
 		@Test
@@ -70,10 +67,10 @@ class NeighborhoodVerificationServiceTest {
 			UserNeighborhood userNeighborhood = mock(UserNeighborhood.class);
 			Location location = mock(Location.class);
 
-			given(user.getId()).willReturn(1L);
-			given(user.verifiedNeighborhood(neighborhood.getId())).willReturn(userNeighborhood);
+			given(user.getId()).willReturn(userId);
+			given(user.verifiedNeighborhood(neighborhoodId)).willReturn(userNeighborhood);
 			given(userNeighborhood.getVerifiedAt()).willReturn(LocalDateTime.now());
-			given(userRepository.findById(1L)).willReturn(Optional.of(user));
+			given(userRepository.findById(userId)).willReturn(Optional.of(user));
 
 			try (MockedStatic<LocationMapper> locationMapperMock = mockStatic(LocationMapper.class);
 				 MockedStatic<LocationUtils> locationUtilsMock = mockStatic(LocationUtils.class)) {
@@ -86,9 +83,9 @@ class NeighborhoodVerificationServiceTest {
 						LocationUtils.calculateDistanceBetweenLocations(any(Location.class), any(Location.class)))
 					.thenReturn(5.0);
 
-				neighborhoodVerificationService.verifyAndRegisterNeighborhood(1L, neighborhoodVerificationCommand);
+				neighborhoodVerificationService.verifyAndRegisterNeighborhood(userId, neighborhoodVerificationCommand);
 			}
-			then(userRepository).should().updateVerifiedUserNeighborhood(1L, userNeighborhood);
+			then(userRepository).should().updateVerifiedUserNeighborhood(userId, userNeighborhood);
 		}
 
 		@Test
@@ -101,7 +98,7 @@ class NeighborhoodVerificationServiceTest {
 
 				OutOfNeighborhoodBoundaryException exception = assertThrows(OutOfNeighborhoodBoundaryException.class,
 					() -> {
-						neighborhoodVerificationService.verifyAndRegisterNeighborhood(1L,
+						neighborhoodVerificationService.verifyAndRegisterNeighborhood(userId,
 							neighborhoodVerificationCommand);
 					});
 
@@ -117,11 +114,11 @@ class NeighborhoodVerificationServiceTest {
 		@Test
 		@DisplayName("존재하지 않는 동네를 찾아 예외 발생")
 		public void testVerifyAndRegisterNeighborhood_NeighborhoodNotFound() {
-			given(neighborhoodRepository.findById(anyInt())).willReturn(Optional.empty());
+			given(neighborhoodRepository.findById(neighborhoodId)).willReturn(Optional.empty());
 
 			NeighborhoodNotFoundException exception = assertThrows(NeighborhoodNotFoundException.class,
 				() -> {
-					neighborhoodVerificationService.verifyAndRegisterNeighborhood(1L, neighborhoodVerificationCommand);
+					neighborhoodVerificationService.verifyAndRegisterNeighborhood(userId, neighborhoodVerificationCommand);
 				});
 
 			assertThat(exception.getMessage(), is("Neighborhood not found"));

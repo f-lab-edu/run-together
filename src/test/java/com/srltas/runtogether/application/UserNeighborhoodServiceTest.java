@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,8 +36,8 @@ class UserNeighborhoodServiceTest {
 	@DisplayName("사용자가 동네를 성공적으로 등록하는 경우")
 	void testAddNeighborhoodSuccess() {
 		// given
-		long userId = 1L;
-		int neighborhoodId = 101;
+		String userId = "usr_" + UUID.randomUUID();
+		String neighborhoodId = "nhd" + UUID.randomUUID();
 
 		User user = new User(userId, "testUser");
 		Neighborhood neighborhood = new Neighborhood(neighborhoodId, "Gangnam",
