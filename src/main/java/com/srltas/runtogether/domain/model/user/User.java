@@ -1,7 +1,5 @@
 package com.srltas.runtogether.domain.model.user;
 
-import static java.util.Objects.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,11 +32,9 @@ public class User {
 	}
 
 	public UserNeighborhood verifiedNeighborhood(String neighborhoodId) {
-		UserNeighborhood userNeighborhood = userNeighborhoods.get(neighborhoodId);
-
-		if (isNull(userNeighborhood)) {
+		UserNeighborhood userNeighborhood = userNeighborhoods.computeIfAbsent(neighborhoodId, id -> {
 			throw new NeighborhoodNotRegisteredException();
-		}
+		});
 
 		userNeighborhood.verifyNeighborhood();
 		return userNeighborhood;
