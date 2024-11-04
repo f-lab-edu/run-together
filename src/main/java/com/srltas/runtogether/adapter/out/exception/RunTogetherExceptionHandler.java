@@ -22,19 +22,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.srltas.runtogether.application.exception.BusinessException;
-import com.srltas.runtogether.common.exception.ErrorResponse;
 import com.srltas.runtogether.application.exception.UnauthorizedException;
+import com.srltas.runtogether.common.exception.ErrorResponse;
 
 import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class RunTogetherExceptionHandler {
-
-	@ExceptionHandler(BusinessException.class)
-	protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException ex) {
-		return new ResponseEntity<>(ErrorResponse.of(ex.getErrorCode()), HttpStatus.BAD_REQUEST);
-	}
 
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleEntityNotFoundException(final EntityNotFoundException ex) {
