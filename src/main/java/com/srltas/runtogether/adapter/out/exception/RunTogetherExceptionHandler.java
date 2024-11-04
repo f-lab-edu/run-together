@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.srltas.runtogether.common.exception.BusinessException;
+import com.srltas.runtogether.application.exception.BusinessException;
 import com.srltas.runtogether.common.exception.ErrorResponse;
-import com.srltas.runtogether.common.exception.UnauthorizedException;
+import com.srltas.runtogether.application.exception.UnauthorizedException;
 
 import jakarta.validation.ConstraintViolationException;
 

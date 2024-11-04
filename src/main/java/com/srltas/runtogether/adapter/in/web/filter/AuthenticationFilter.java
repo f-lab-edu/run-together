@@ -11,7 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.srltas.runtogether.adapter.out.session.SessionStorage;
 import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
-import com.srltas.runtogether.common.exception.UnauthorizedException;
+import com.srltas.runtogether.application.exception.UnauthorizedException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
