@@ -1,8 +1,6 @@
-package com.srltas.runtogether.domain.model.neighborhood.exception;
+package com.srltas.runtogether.adapter.out.exception;
 
 import static com.srltas.runtogether.domain.model.neighborhood.exception.code.NeighborhoodErrorCode.*;
-
-import com.srltas.runtogether.common.exception.EntityNotFoundException;
 
 public class NeighborhoodNotFoundException extends EntityNotFoundException {
 
