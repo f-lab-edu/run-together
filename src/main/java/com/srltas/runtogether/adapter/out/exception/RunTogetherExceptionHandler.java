@@ -1,4 +1,4 @@
-package com.srltas.runtogether.common.exception.handler;
+package com.srltas.runtogether.adapter.out.exception;
 
 import static com.srltas.runtogether.common.exception.code.CommonErrorCode.*;
 import static org.springframework.http.HttpStatus.*;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import com.srltas.runtogether.common.exception.ErrorResponse;
 import com.srltas.runtogether.common.exception.BusinessException;
-import com.srltas.runtogether.adapter.out.exception.EntityNotFoundException;
 import com.srltas.runtogether.common.exception.UnauthorizedException;
 
 @RestControllerAdvice

@@ -1,4 +1,4 @@
-package com.srltas.runtogether.common.exception.handler;
+package com.srltas.runtogether.common.exception;
 
 import com.srltas.runtogether.common.exception.code.ErrorCode;
 
