@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Range;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 public record NeighborhoodVerificationRequest(
 
@@ -17,7 +16,6 @@ public record NeighborhoodVerificationRequest(
 	double longitude,
 
 	@NotBlank
-	@Pattern(regexp = "^nhb_([a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12})$")
 	String neighborhoodId
 ) {
 }
