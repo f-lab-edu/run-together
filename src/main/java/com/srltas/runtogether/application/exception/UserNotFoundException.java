@@ -1,4 +1,4 @@
-package com.srltas.runtogether.adapter.out.exception;
+package com.srltas.runtogether.application.exception;
 
 import static com.srltas.runtogether.domain.model.user.exception.code.UserErrorCode.*;
 

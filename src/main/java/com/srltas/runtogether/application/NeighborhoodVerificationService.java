@@ -12,12 +12,12 @@ import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCas
 import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
-import com.srltas.runtogether.adapter.out.exception.NeighborhoodNotFoundException;
+import com.srltas.runtogether.application.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.domain.model.neighborhood.exception.OutOfNeighborhoodBoundaryException;
 import com.srltas.runtogether.domain.model.user.User;
 import com.srltas.runtogether.domain.model.user.UserNeighborhood;
 import com.srltas.runtogether.domain.model.user.UserRepository;
-import com.srltas.runtogether.adapter.out.exception.UserNotFoundException;
+import com.srltas.runtogether.application.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 

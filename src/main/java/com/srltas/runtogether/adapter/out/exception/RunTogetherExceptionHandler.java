@@ -22,7 +22,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.srltas.runtogether.application.exception.UnauthorizedException;
+import com.srltas.runtogether.application.exception.EntityNotFoundException;
+import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
 import com.srltas.runtogether.common.exception.ErrorResponse;
 
 import jakarta.validation.ConstraintViolationException;
