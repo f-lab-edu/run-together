@@ -29,7 +29,7 @@ public class NeighborhoodVerificationService implements NeighborhoodVerification
 	private final UserRepository userRepository;
 
 	@Override
-	public NeighborhoodVerificationResult verifyAndRegisterNeighborhood(long userId,
+	public NeighborhoodVerificationResult verifyAndRegisterNeighborhood(String userId,
 		NeighborhoodVerificationCommand command) {
 		Neighborhood neighborhood = neighborhoodRepository.findById(command.neighborhoodId())
 			.orElseThrow(NeighborhoodNotFoundException::new);

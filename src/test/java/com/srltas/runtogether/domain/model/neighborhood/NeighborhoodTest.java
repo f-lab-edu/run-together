@@ -1,6 +1,7 @@
 package com.srltas.runtogether.domain.model.neighborhood;
 
 import static com.srltas.runtogether.domain.model.neighborhood.LocationUtils.*;
+import static com.srltas.runtogether.testutil.TestIdGenerator.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.*;
@@ -23,7 +24,7 @@ class NeighborhoodTest {
 	public void setUp() {
 		currentLocation = new Location(37.505858, 127.058319);
 		neighborhoodLocation = new Location(37.517347, 127.047382);
-		neighborhood = new Neighborhood(1, "Gangnam", neighborhoodLocation, 7.0);
+		neighborhood = new Neighborhood(generateNeighborhoodId(), "Gangnam", neighborhoodLocation, 7.0);
 	}
 
 	@Test

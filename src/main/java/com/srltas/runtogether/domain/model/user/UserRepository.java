@@ -3,8 +3,8 @@ package com.srltas.runtogether.domain.model.user;
 import java.util.Optional;
 
 public interface UserRepository {
-	Optional<User> findById(long id);
+	Optional<User> findById(String id);
 	void save(User user);
-	void addUserNeighborhood(long userId, int neighborhoodId);
-	void updateVerifiedUserNeighborhood(long userId, UserNeighborhood neighborhood);
+	void addUserNeighborhood(String userId, String neighborhoodId);
+	void updateVerifiedUserNeighborhood(String userId, UserNeighborhood neighborhood);
 }

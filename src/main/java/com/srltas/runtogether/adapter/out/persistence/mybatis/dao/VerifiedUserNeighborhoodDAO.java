@@ -6,8 +6,8 @@ import lombok.Builder;
 
 @Builder
 public record VerifiedUserNeighborhoodDAO(
-	long userId,
-	int neighborhoodId,
+	String userId,
+	String neighborhoodId,
 	boolean verified,
 	LocalDateTime verifiedAt
 ) {

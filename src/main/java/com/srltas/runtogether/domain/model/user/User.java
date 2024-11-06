@@ -15,9 +15,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class User {
 
-	private final Long id;
+	private final String id;
 	private final String name;
-	private final Map<Integer, UserNeighborhood> userNeighborhoods = new HashMap<>();
+	private final Map<String, UserNeighborhood> userNeighborhoods = new HashMap<>();
 
 	public void addNeighborhood(Neighborhood neighborhood) {
 		if (userNeighborhoods.size() >= 2) {
@@ -31,7 +31,7 @@ public class User {
 		userNeighborhoods.put(neighborhood.getId(), new UserNeighborhood(neighborhood));
 	}
 
-	public UserNeighborhood verifiedNeighborhood(int neighborhoodId) {
+	public UserNeighborhood verifiedNeighborhood(String neighborhoodId) {
 		UserNeighborhood userNeighborhood = userNeighborhoods.get(neighborhoodId);
 
 		if (isNull(userNeighborhood)) {

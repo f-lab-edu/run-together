@@ -1,5 +1,6 @@
 package com.srltas.runtogether.adapter.out.persistence.mybatis;
 
+import static com.srltas.runtogether.testutil.TestIdGenerator.*;
 import static org.mockito.BDDMockito.*;
 
 import org.junit.jupiter.api.DisplayName;
@@ -27,12 +28,11 @@ class MybatisUserRepositoryTest {
 	@Test
 	@DisplayName("동네 인증 정보 업데이트 SQL 실행 위임을 검증")
 	void shouldCallMapperToUserRepository() {
-		long userId = 1L;
-		Neighborhood neighborhood = new Neighborhood(1, "Test Neighborhood",
+		Neighborhood neighborhood = new Neighborhood(generateNeighborhoodId(), "Test Neighborhood",
 			new Location(37.505858, 127.058319), 5.0);
 		UserNeighborhood userNeighborhood = new UserNeighborhood(neighborhood);
 
-		mybatisUserRepository.updateVerifiedUserNeighborhood(userId, userNeighborhood);
+		mybatisUserRepository.updateVerifiedUserNeighborhood(generateUserId(), userNeighborhood);
 
 		verify(mybatisUserMapper).updateVerifiedUserNeighborhood(any(VerifiedUserNeighborhoodDAO.class));
 	}
@@ -40,11 +40,7 @@ class MybatisUserRepositoryTest {
 	@Test
 	@DisplayName("내 동네 등록 SQL 실행 위임 검증")
 	void shouldCallMapperToAddUserNeighborhood() {
-		long userId = 1L;
-		int neighborhoodId = 2;
-
-		mybatisUserRepository.addUserNeighborhood(userId, neighborhoodId);
-
+		mybatisUserRepository.addUserNeighborhood(generateUserId(), generateNeighborhoodId());
 		verify(mybatisUserMapper).addUserNeighborhood(any(AddUserNeighborhoodDAO.class));
 	}
 }
