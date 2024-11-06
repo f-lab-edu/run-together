@@ -1,4 +1,4 @@
-package com.srltas.runtogether.adapter.out.exception;
+package com.srltas.runtogether.common.exception;
 
 import static com.srltas.runtogether.common.exception.code.CommonErrorCode.METHOD_NOT_ALLOWED;
 import static com.srltas.runtogether.common.exception.code.CommonErrorCode.UNSUPPORTED_MEDIA_TYPE;
@@ -24,12 +24,11 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.srltas.runtogether.application.exception.EntityNotFoundException;
 import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
-import com.srltas.runtogether.common.exception.ErrorResponse;
 
 import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
-public class RunTogetherExceptionHandler {
+public class GlobalExceptionHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleEntityNotFoundException(final EntityNotFoundException ex) {
