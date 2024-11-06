@@ -1,4 +1,4 @@
-package com.srltas.runtogether.common.exception;
+package com.srltas.runtogether.adapter;
 
 import static com.srltas.runtogether.common.exception.code.CommonErrorCode.*;
 
@@ -22,6 +22,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
 import com.srltas.runtogether.application.exception.EntityNotFoundException;
+import com.srltas.runtogether.common.exception.ErrorResponse;
+import com.srltas.runtogether.common.exception.RunTogetherException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
