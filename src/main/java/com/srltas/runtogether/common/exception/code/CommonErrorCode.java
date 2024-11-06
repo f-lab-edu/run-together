@@ -19,7 +19,9 @@ public enum CommonErrorCode implements ErrorCode {
 	TYPE_MISMATCH(-10, "요청 파라미터의 타입이 일치하지 않습니다."),
 	BINDING_ERROR(-11, "요청 데이터 바인딩 중 오류가 발생했습니다."),
 	CONSTRAINT_VIOLATION(-12, "제약 조건을 위반했습니다."),
-	NO_HANDLER_FOUND(-13, "요청에 대한 핸들러를 찾을 수 없습니다.");
+	NO_HANDLER_FOUND(-13, "요청에 대한 핸들러를 찾을 수 없습니다."),
+	NOT_ACCEPTABLE(-14, "요청 미디어 타입은 제공되지 않습니다."),
+	MISSING_PATH_VARIABLE(-15, "필수 경로 변수가 누락되었습니다.");
 
 	private final int code;
 	private final String message;
