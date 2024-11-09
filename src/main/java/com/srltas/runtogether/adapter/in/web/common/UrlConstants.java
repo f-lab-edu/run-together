@@ -7,6 +7,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UrlConstants {
+	public final String ALL_URL = "/*";
 	public final String NEIGHBORHOOD_VERIFICATION = "/neighborhood/verification";
 	public final String USER_NEIGHBORHOOD_REGISTRATION = "/users/neighborhoods";
 
