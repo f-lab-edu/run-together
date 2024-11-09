@@ -1,0 +1,50 @@
+{
+  "timestamp": {
+    "$resolver": "timestamp",
+    "pattern": "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+    "timeZone": "Asia/Seoul"
+  },
+  "level": {
+    "$resolver": "level"
+  },
+  "thread": {
+    "$resolver": "thread"
+  },
+  "logger": {
+    "$resolver": "logger"
+  },
+  "message": {
+    "$resolver": "message"
+  },
+  "exception": {
+    "$resolver": "exception"
+  },
+  "requestId": {
+    "$resolver": "mdc",
+    "key": "requestId"
+  },
+  "userId": {
+    "$resolver": "mdc",
+    "key": "userId"
+  },
+  "method": {
+    "$resolver": "mdc",
+    "key": "method"
+  },
+  "path": {
+    "$resolver": "mdc",
+    "key": "path"
+  },
+  "clientIp": {
+    "$resolver": "mdc",
+    "key": "clientIp"
+  },
+  "durationMs": {
+    "$resolver": "mdc",
+    "key": "durationMs"
+  },
+  "statusCode": {
+    "$resolver": "mdc",
+    "key": "statusCode"
+  }
+}
