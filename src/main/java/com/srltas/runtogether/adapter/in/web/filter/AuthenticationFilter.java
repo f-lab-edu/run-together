@@ -1,9 +1,9 @@
 package com.srltas.runtogether.adapter.in.web.filter;
 
 import static com.srltas.runtogether.adapter.in.web.common.AuthConstants.*;
-import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.USER_SESSION;
-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
-import static java.util.Objects.isNull;
+import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.*;
+import static com.srltas.runtogether.common.exception.code.CommonErrorCode.*;
+import static java.util.Objects.*;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.srltas.runtogether.adapter.out.session.SessionStorage;
 import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
+import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,8 +33,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		UserSessionDTO userSessionDTO;
 
 		if (isNull(token) || isNullUserSessionDTO(userSessionDTO = sessionStorage.getUserFromSessionId(token))) {
-			response.sendError(SC_UNAUTHORIZED, "인증되지 않은 사용자입니다.");
-			return;
+			throw new UnauthorizedException(UNAUTHORIZED_REQUEST);
 		}
 
 		HttpSession session = request.getSession(true);

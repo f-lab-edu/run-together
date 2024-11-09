@@ -1,14 +1,19 @@
 package com.srltas.runtogether.domain.model.user;
 
 import static com.srltas.runtogether.testutil.TestIdGenerator.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.srltas.runtogether.domain.exception.CommonException;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
+import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodDuplicationException;
+import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodLimitExceededException;
+import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodNotRegisteredException;
 
 class UserTest {
 
@@ -21,7 +26,7 @@ class UserTest {
 	@DisplayName("성공적으로 동네를 등록한다")
 	void testAddNeighborhoodSuccess() {
 		user.addNeighborhood(neighborhood1);
-		assertThat(user.getUserNeighborhoods().size()).isEqualTo(1);
+		assertThat(user.getUserNeighborhoods().size(), is(1));
 	}
 
 	@Test
@@ -32,8 +37,8 @@ class UserTest {
 		user.verifiedNeighborhood(neighborhoodId1);
 
 		UserNeighborhood userNeighborhood = user.getUserNeighborhoods().get(neighborhoodId1);
-		assertThat(userNeighborhood.isVerified()).isTrue();
-		assertThat(userNeighborhood.getVerifiedAt()).isNotNull();
+		assertThat(userNeighborhood.isVerified(), is(true));
+		assertThat(userNeighborhood.getVerifiedAt(), is(notNullValue()));
 	}
 
 	@Test
@@ -48,9 +53,13 @@ class UserTest {
 		user.addNeighborhood(neighborhood1);
 		user.addNeighborhood(neighborhood2);
 
-		assertThatThrownBy(() -> user.addNeighborhood(neighborhood3))
-			.isInstanceOf(CommonException.class)
-			.hasMessageContaining("최대 2개의 동네만 등록할 수 있습니다.");
+		NeighborhoodLimitExceededException exception = assertThrows(
+			NeighborhoodLimitExceededException.class, () -> {
+				user.addNeighborhood(neighborhood3);
+			});
+
+		assertThat(exception.getErrorCode().getCode(), is(-351));
+		assertThat(exception.getMessage(), is("내 동네는 최대 2개만 등록할 수 있습니다."));
 	}
 
 	@Test
@@ -58,16 +67,24 @@ class UserTest {
 	void testAddNeighborhoodDuplicate() {
 		user.addNeighborhood(neighborhood1);
 
-		assertThatThrownBy(() -> user.addNeighborhood(neighborhood1))
-			.isInstanceOf(CommonException.class)
-			.hasMessageContaining("이미 등록된 동네입니다.");
+		NeighborhoodDuplicationException exception = assertThrows(
+			NeighborhoodDuplicationException.class, () -> {
+				user.addNeighborhood(neighborhood1);
+			});
+
+		assertThat(exception.getErrorCode().getCode(), is(-352));
+		assertThat(exception.getMessage(), is("이미 내 동네로 등록된 동네입니다."));
 	}
 
 	@Test
 	@DisplayName("동네가 등록되지 않은 경우 인증 시 에러가 발생한다")
 	void testVerifyNeighborhoodNotRegistered() {
-		assertThatThrownBy(() -> user.verifiedNeighborhood(generateNeighborhoodId()))
-			.isInstanceOf(CommonException.class)
-			.hasMessageContaining("해당 동네가 등록되지 않았습니다.");
+		NeighborhoodNotRegisteredException exception = assertThrows(
+			NeighborhoodNotRegisteredException.class, () -> {
+				user.verifiedNeighborhood(generateNeighborhoodId());
+			});
+
+		assertThat(exception.getErrorCode().getCode(), is(-353));
+		assertThat(exception.getMessage(), is("내 동네로 등록되지 않은 동네입니다."));
 	}
 }

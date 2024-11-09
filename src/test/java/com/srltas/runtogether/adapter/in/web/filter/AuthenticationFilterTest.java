@@ -3,7 +3,9 @@ package com.srltas.runtogether.adapter.in.web.filter;
 import static com.srltas.runtogether.adapter.in.web.common.AuthConstants.*;
 import static com.srltas.runtogether.adapter.in.web.common.SessionAttribute.*;
 import static com.srltas.runtogether.testutil.TestIdGenerator.*;
-import static jakarta.servlet.http.HttpServletResponse.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -17,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.adapter.out.session.SessionStorage;
 import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
+import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -74,9 +77,13 @@ class AuthenticationFilterTest {
 		when(sessionStorage.getUserFromSessionId(INVALID_TOKEN)).thenReturn(null);
 
 		// when
-		authenticationFilter.doFilterInternal(request, response, filterChain);
+		UnauthorizedException exception = assertThrows(UnauthorizedException.class,
+			() -> {
+				authenticationFilter.doFilterInternal(request, response, filterChain);
+			});
 
-		verify(response).sendError(SC_UNAUTHORIZED, "인증되지 않은 사용자입니다.");
+		assertThat(exception.getErrorCode().getCode(), is(-4));
+		assertThat(exception.getMessage(), is("해당 API에 대한 요청 권한이 없습니다."));
 		verify(filterChain, never()).doFilter(request, response);
 	}
 
@@ -87,10 +94,13 @@ class AuthenticationFilterTest {
 		when(request.getHeader(AUTHORIZATION)).thenReturn(null);
 
 		// when
-		authenticationFilter.doFilterInternal(request, response, filterChain);
+		UnauthorizedException exception = assertThrows(UnauthorizedException.class, () -> {
+			authenticationFilter.doFilterInternal(request, response, filterChain);
+		});
 
 		// then
-		verify(response).sendError(SC_UNAUTHORIZED, "인증되지 않은 사용자입니다.");
+		assertThat(exception.getErrorCode().getCode(), is(-4));
+		assertThat(exception.getMessage(), is("해당 API에 대한 요청 권한이 없습니다."));
 		verify(filterChain, never()).doFilter(request, response);
 	}
 }

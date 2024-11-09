@@ -22,8 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.application.mappper.LocationMapper;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
-import com.srltas.runtogether.domain.exception.NeighborhoodNotFoundException;
-import com.srltas.runtogether.domain.exception.OutOfNeighborhoodBoundaryException;
+import com.srltas.runtogether.application.exception.NeighborhoodNotFoundException;
+import com.srltas.runtogether.domain.model.neighborhood.exception.OutOfNeighborhoodBoundaryException;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.LocationUtils;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
@@ -102,7 +102,8 @@ class NeighborhoodVerificationServiceTest {
 							neighborhoodVerificationCommand);
 					});
 
-				assertThat(exception.getMessage(), is("User is outside of the boundary of neighborhood"));
+				assertThat(exception.getErrorCode().getCode(), is(-355));
+				assertThat(exception.getMessage(), is("해당 동네 범위를 벗어났습니다."));
 			}
 			then(userRepository).should(never()).save(any(User.class));
 		}
@@ -121,7 +122,8 @@ class NeighborhoodVerificationServiceTest {
 					neighborhoodVerificationService.verifyAndRegisterNeighborhood(userId, neighborhoodVerificationCommand);
 				});
 
-			assertThat(exception.getMessage(), is("Neighborhood not found"));
+			assertThat(exception.getErrorCode().getCode(), is(-301));
+			assertThat(exception.getMessage(), is("해당 동네를 찾을 수 없습니다."));
 			then(userRepository).should(never()).save(any(User.class));
 		}
 	}
