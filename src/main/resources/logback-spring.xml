@@ -2,9 +2,9 @@
 
 <configuration>
     <property name="ACCESS_LOG_FILE_NAME" value="application-access"/>
-    <property name="DEBUG_LOG_FILE_NAME" value="application-debug" />
-    <property name="INFO_LOG_FILE_NAME" value="application-info" />
-    <property name="ERROR_LOG_FILE_NAME" value="application-error" />
+    <property name="DEBUG_LOG_FILE_NAME" value="application-debug"/>
+    <property name="INFO_LOG_FILE_NAME" value="application-info"/>
+    <property name="ERROR_LOG_FILE_NAME" value="application-error"/>
 
     <appender name="CONSOLE_OUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
