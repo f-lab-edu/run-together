@@ -21,20 +21,28 @@ public class RequestLogFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
+
+		setRequestMDC(request);
+		long startTime = System.currentTimeMillis();
+		try {
+			filterChain.doFilter(request, response);
+		} finally {
+			setResponseMDC(response, startTime);
+			log.info("HTTP Request info");
+			MDC.clear();
+		}
+	}
+
+	private void setRequestMDC(HttpServletRequest request) {
 		MDC.put("requestId", UUID.randomUUID().toString());
 		MDC.put("userIdToken", extractUserIdToken(request.getHeader(AUTHORIZATION)).orElse("unauthenticated"));
 		MDC.put("method", request.getMethod());
 		MDC.put("path", request.getRequestURI());
 		MDC.put("clientIp", request.getRemoteAddr());
+	}
 
-		long startTime = System.currentTimeMillis();
-		try {
-			filterChain.doFilter(request, response);
-		} finally {
-			MDC.put("durationMs", String.valueOf(System.currentTimeMillis() - startTime));
-			MDC.put("statusCode", String.valueOf(response.getStatus()));
-			log.info("HTTP Request info");
-			MDC.clear();
-		}
+	private void setResponseMDC(HttpServletResponse response, long startTime) {
+		MDC.put("durationMs", String.valueOf(System.currentTimeMillis() - startTime));
+		MDC.put("statusCode", String.valueOf(response.getStatus()));
 	}
 }
