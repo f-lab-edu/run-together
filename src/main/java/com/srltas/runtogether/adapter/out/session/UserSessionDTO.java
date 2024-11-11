@@ -1,7 +1,6 @@
 package com.srltas.runtogether.adapter.out.session;
 
 public record UserSessionDTO(
-	String userId,
-	String userName
+	String userId
 ) {
 }

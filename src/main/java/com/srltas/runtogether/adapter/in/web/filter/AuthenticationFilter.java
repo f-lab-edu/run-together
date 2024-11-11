@@ -43,7 +43,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private boolean isNullUserSessionDTO(UserSessionDTO userSessionDTO) {
-		return userSessionDTO == null;
+		return isNull(userSessionDTO.userId());
 	}
 
 	private String extractToken(String authorizationHeader) {
