@@ -55,7 +55,7 @@ class AuthenticationFilterTest {
 	@DisplayName("유효한 토큰을 통해 사용자가 인증되는지 확인")
 	void testValidToken_UserAuthenticated() throws ServletException, IOException {
 		// given
-		UserSessionDTO userSessionDTO = new UserSessionDTO(generateUserId(), "testUserName");
+		UserSessionDTO userSessionDTO = new UserSessionDTO(generateUserId());
 		when(request.getHeader(AUTHORIZATION)).thenReturn(BEARER_TOKEN_PREFIX + VALID_TOKEN);
 		when(sessionStorage.getUserFromSessionId(VALID_TOKEN)).thenReturn(userSessionDTO);
 		when(request.getSession(true)).thenReturn(session);
@@ -74,7 +74,7 @@ class AuthenticationFilterTest {
 	void testInvalidToken_UserAuthenticated() throws ServletException, IOException {
 		// given
 		when(request.getHeader(AUTHORIZATION)).thenReturn(BEARER_TOKEN_PREFIX + INVALID_TOKEN);
-		when(sessionStorage.getUserFromSessionId(INVALID_TOKEN)).thenReturn(null);
+		when(sessionStorage.getUserFromSessionId(INVALID_TOKEN)).thenReturn(new UserSessionDTO(null));
 
 		// when
 		UnauthorizedException exception = assertThrows(UnauthorizedException.class,

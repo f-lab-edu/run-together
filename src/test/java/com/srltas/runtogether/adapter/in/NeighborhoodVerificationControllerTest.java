@@ -65,10 +65,10 @@ class NeighborhoodVerificationControllerTest {
 	static Stream<Arguments> provideRequestsForSuccess() {
 		return Stream.of(
 			Arguments.of(new NeighborhoodVerificationRequest(37.579617, 126.977041, generateNeighborhoodId()),
-				new UserSessionDTO(generateUserId(), "user1")),
+				new UserSessionDTO(generateUserId())),
 			Arguments.of(new NeighborhoodVerificationRequest(37.556201, 126.972286, generateNeighborhoodId()),
-				new UserSessionDTO(generateUserId() + UUID.randomUUID(), "user2")),
+				new UserSessionDTO(generateUserId() + UUID.randomUUID())),
 			Arguments.of(new NeighborhoodVerificationRequest(37.497911, 127.027618, generateNeighborhoodId()),
-				new UserSessionDTO(generateUserId(), "user3")));
+				new UserSessionDTO(generateUserId())));
 	}
 }
