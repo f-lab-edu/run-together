@@ -1,0 +1,14 @@
+{
+  "timestamp": {
+    "$resolver": "timestamp",
+    "pattern": "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+    "timeZone": "UTC"
+  },
+  "traceId": {
+    "$resolver": "mdc",
+    "key": "traceId"
+  },
+  "message": {
+    "$resolver": "message"
+  }
+}

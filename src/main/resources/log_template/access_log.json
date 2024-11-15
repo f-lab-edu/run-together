@@ -1,0 +1,53 @@
+{
+  "timestamp": {
+    "$resolver": "timestamp",
+    "pattern": "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+    "timeZone": "UTC"
+  },
+  "trace_id": {
+    "$resolver": "mdc",
+    "key": "traceId"
+  },
+  "user_id": {
+    "$resolver": "mdc",
+    "key": "userId"
+  },
+  "message": {
+    "request_total_time_ms": {
+      "$resolver": "mdc",
+      "key": "requestTotalTime"
+    },
+    "session_fetch_time_ms": {
+      "$resolver": "mdc",
+      "key": "sessionFetchTime"
+    },
+    "database_fetch_time_ms": {
+      "$resolver": "mdc",
+      "key": "databaseFetchTime"
+    }
+  },
+  "api_name": {
+    "$resolver": "mdc",
+    "key": "apiName"
+  },
+  "path": {
+    "$resolver": "mdc",
+    "key": "path"
+  },
+  "method": {
+    "$resolver": "mdc",
+    "key": "method"
+  },
+  "error_code": {
+    "$resolver": "mdc",
+    "key": "errorCode"
+  },
+  "status": {
+    "$resolver": "mdc",
+    "key": "status"
+  },
+  "client_ip": {
+    "$resolver": "mdc",
+    "key": "clientIp"
+  }
+}

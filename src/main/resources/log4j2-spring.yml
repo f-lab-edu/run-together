@@ -1,0 +1,140 @@
+Configuration:
+  status: INFO
+
+  Properties:
+    Property:
+      - name: ACCESS_LOG_FILE_NAME
+        value: "application-access"
+      - name: DEBUG_LOG_FILE_NAME
+        value: "application-debug"
+      - name: INFO_LOG_FILE_NAME
+        value: "application-info"
+      - name: ERROR_LOG_FILE_NAME
+        value: "application-error"
+
+  Appenders:
+    Console:
+      name: CONSOLE_OUT
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"
+
+    RollingFile:
+      - name: ACCESS_LOG
+        fileName: logs/access/${ACCESS_LOG_FILE_NAME}.log
+        filePattern: "logs/access/${ACCESS_LOG_FILE_NAME}.%d{yyyy-MM-dd-HH}_%i.log"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+          SizeBasedTriggeringPolicy:
+            size: "10MB"
+        DefaultRolloverStrategy:
+          max: 1000
+          Delete:
+            basePath: logs/access
+            maxDepth: 2
+            IfLastModified:
+              age: 30d
+        JsonTemplateLayout:
+          eventTemplateUri: "classpath:log_template/access_log.json"
+        JSONLayout:
+          objectMessageAsJsonObject: true
+        LevelRangeFilter:
+          minLevel: INFO
+          maxLevel: INFO
+          onMatch: ACCEPT
+          onMismatch: DENY
+
+      - name: DEBUG_LOG
+        fileName: logs/${DEBUG_LOG_FILE_NAME}.log
+        filePattern: "logs/${DEBUG_LOG_FILE_NAME}.%d{yyyy-MM-dd-HH}_%i.log"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+          SizeBasedTriggeringPolicy:
+            size: "10MB"
+        DefaultRolloverStrategy:
+          max: 300
+          Delete:
+            basePath: logs/
+            maxDepth: 1
+            IfLastModified:
+              age: 30d
+        JsonTemplateLayout:
+          eventTemplateUri: "classpath:log_template/debug_log.json"
+        LevelRangeFilter:
+          minLevel: DEBUG
+          maxLevel: DEBUG
+          onMatch: ACCEPT
+          onMismatch: DENY
+
+      - name: INFO_LOG
+        fileName: logs/${INFO_LOG_FILE_NAME}.log
+        filePattern: "logs/${INFO_LOG_FILE_NAME}.%d{yyyy-MM-dd-HH}_%i.log"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+          SizeBasedTriggeringPolicy:
+            size: "10MB"
+        DefaultRolloverStrategy:
+          max: 300
+          Delete:
+            basePath: logs/
+            maxDepth: 1
+            IfLastModified:
+              age: 30d
+        JsonTemplateLayout:
+          eventTemplateUri: "classpath:log_template/info_log.json"
+        LevelRangeFilter:
+          minLevel: INFO
+          maxLevel: INFO
+          onMatch: ACCEPT
+          onMismatch: DENY
+
+      - name: ERROR_LOG
+        fileName: logs/${ERROR_LOG_FILE_NAME}.log
+        filePattern: "logs/${ERROR_LOG_FILE_NAME}.%d{yyyy-MM-dd-HH}_%i.log"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+          SizeBasedTriggeringPolicy:
+            size: "10MB"
+        DefaultRolloverStrategy:
+          max: 300
+          Delete:
+            basePath: logs/
+            maxDepth: 1
+            IfLastModified:
+              age: 30d
+        JsonTemplateLayout:
+          eventTemplateUri: "classpath:log_template/error_log.json"
+        LevelRangeFilter:
+          minLevel: ERROR
+          maxLevel: ERROR
+          onMatch: ACCEPT
+          onMismatch: DENY
+
+  Loggers:
+    root:
+      level: INFO
+      AppenderRef:
+        - ref: CONSOLE_OUT
+
+    logger:
+      - name: com.srltas.runtogether.adapter.in.web.filter.RequestLogFilter
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: ACCESS_LOG
+
+      - name: com.srltas.runtogether
+        level: DEBUG
+        additivity: false
+        AppenderRef:
+          - ref: DEBUG_LOG
+          - ref: INFO_LOG
+          - ref: ERROR_LOG
