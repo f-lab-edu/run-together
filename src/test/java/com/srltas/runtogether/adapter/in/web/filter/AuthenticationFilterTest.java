@@ -74,7 +74,7 @@ class AuthenticationFilterTest {
 	void testInvalidToken_UserAuthenticated() throws ServletException, IOException {
 		// given
 		when(request.getHeader(AUTHORIZATION)).thenReturn(BEARER_TOKEN_PREFIX + INVALID_TOKEN);
-		when(sessionStorage.getUserFromSessionId(INVALID_TOKEN)).thenReturn(new UserSessionDTO(null));
+		when(sessionStorage.getUserFromSessionId(INVALID_TOKEN)).thenReturn(null);
 
 		// when
 		UnauthorizedException exception = assertThrows(UnauthorizedException.class,
