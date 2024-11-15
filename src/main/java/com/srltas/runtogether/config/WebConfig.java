@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.srltas.runtogether.adapter.in.web.filter.AuthenticationFilter;
+import com.srltas.runtogether.adapter.in.web.filter.RequestLogFilter;
 import com.srltas.runtogether.adapter.out.session.SessionStorage;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,15 @@ import lombok.RequiredArgsConstructor;
 public class WebConfig {
 
 	private final SessionStorage sessionStorage;
+
+	@Bean
+	public FilterRegistrationBean<RequestLogFilter> httpRequestLogFilter() {
+		FilterRegistrationBean<RequestLogFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+		filterRegistrationBean.setFilter(new RequestLogFilter());
+		filterRegistrationBean.addUrlPatterns(ALL_URL);
+		filterRegistrationBean.setOrder(0);
+		return filterRegistrationBean;
+	}
 
 	@Bean
 	public FilterRegistrationBean<AuthenticationFilter> sessionFilterRegistration() {
