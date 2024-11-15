@@ -38,7 +38,7 @@ class UserNeighborhoodControllerTest {
 	@DisplayName("내 동네 등록 성공")
 	void testAddUserNeighborhoodSuccess() {
 		AddUserNeighborhoodRequest request = new AddUserNeighborhoodRequest(generateNeighborhoodId());
-		UserSessionDTO userSessionDTO = new UserSessionDTO(generateUserId(), "user1");
+		UserSessionDTO userSessionDTO = new UserSessionDTO(generateUserId());
 		given(session.getAttribute(USER_SESSION)).willReturn(userSessionDTO);
 
 		ResponseEntity<Void> response = userNeighborhoodController.addUserNeighborhood(request, session);

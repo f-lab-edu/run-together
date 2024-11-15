@@ -32,7 +32,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		String token = extractToken(authorizationHeader);
 		UserSessionDTO userSessionDTO;
 
-		if (isNull(token) || isNullUserSessionDTO(userSessionDTO = sessionStorage.getUserFromSessionId(token))) {
+		if (isNull(token) || isNull(userSessionDTO = sessionStorage.getUserFromSessionId(token))) {
 			throw new UnauthorizedException(UNAUTHORIZED_REQUEST);
 		}
 
@@ -40,10 +40,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		session.setAttribute(USER_SESSION, userSessionDTO);
 
 		filterChain.doFilter(request, response);
-	}
-
-	private boolean isNullUserSessionDTO(UserSessionDTO userSessionDTO) {
-		return userSessionDTO == null;
 	}
 
 	private String extractToken(String authorizationHeader) {
