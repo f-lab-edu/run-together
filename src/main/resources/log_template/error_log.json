@@ -1,0 +1,28 @@
+{
+  "timestamp": {
+    "$resolver": "timestamp",
+    "pattern": "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+    "timeZone": "UTC"
+  },
+  "trace_id": {
+    "$resolver": "mdc",
+    "key": "traceId"
+  },
+  "error_code": {
+    "$resolver": "mdc",
+    "key": "errorCode"
+  },
+  "message": {
+    "error_name": {
+      "$resolver": "mdc",
+      "key": "errorName"
+    },
+    "error_message": {
+      "$resolver": "message"
+    }
+  },
+  "api_name": {
+    "$resolver": "mdc",
+    "key": "apiName"
+  }
+}
