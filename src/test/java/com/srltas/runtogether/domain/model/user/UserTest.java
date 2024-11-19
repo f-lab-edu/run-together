@@ -3,8 +3,9 @@ package com.srltas.runtogether.domain.model.user;
 import static com.srltas.runtogether.testutil.TestIdGenerator.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.HashMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodNo
 class UserTest {
 
 	private final String neighborhoodId1 = generateNeighborhoodId();
-	private final User user = new User(generateUserId(), "TestUser");
+	private final User user = new User(generateUserId(), "TestUser", new HashMap<>());
 	private final Neighborhood neighborhood1 = new Neighborhood(neighborhoodId1, "Gangnam",
 		new Location(37.4979, 127.0276), 5.0);
 
