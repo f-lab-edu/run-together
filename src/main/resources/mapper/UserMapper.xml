@@ -4,6 +4,47 @@
 
 <mapper namespace="com.srltas.runtogether.adapter.out.persistence.mybatis.MybatisUserMapper">
 
+    <resultMap id="UserDAOResultMap" type="UserDAO">
+        <id property="id" column="user_id" javaType="String"/>
+        <result property="name" column="user_name" javaType="String"/>
+        <collection property="userNeighborhoodDAOs" resultMap="UserNeighborhoodDAOResultMap"/>
+    </resultMap>
+
+    <resultMap id="UserNeighborhoodDAOResultMap" type="UserNeighborhoodDAO">
+        <result property="verified" column="verified"/>
+        <result property="verifiedAt" column="verified_at"/>
+        <association property="neighborhoodDAO" resultMap="NeighborhoodDAOResultMap"/>
+    </resultMap>
+
+    <resultMap id="NeighborhoodDAOResultMap" type="NeighborhoodDAO">
+        <id property="id" column="neighborhood_id"/>
+        <result property="name" column="neighborhood_name"/>
+        <result property="boundaryRadius" column="boundary_radius"/>
+        <association property="locationDAO" resultMap="LocationDAOResultMap"/>
+    </resultMap>
+
+    <resultMap id="LocationDAOResultMap" type="LocationDAO">
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+    </resultMap>
+
+    <select id="findById" parameterType="String" resultMap="UserDAOResultMap">
+        SELECT
+            u.id AS user_id,
+            u.name AS user_name,
+            n.id AS neighborhood_id,
+            n.name AS neighborhood_name,
+            n.latitude,
+            n.longitude,
+            n.boundary_radius,
+            un.verified,
+            un.verified_at
+        FROM users u
+        LEFT JOIN user_neighborhoods un ON u.id = un.user_id
+        LEFT JOIN neighborhoods n ON un.neighborhood_id = n.id
+        WHERE u.id = #{id}
+    </select>
+
     <insert id="addUserNeighborhood" parameterType="AddUserNeighborhoodDAO">
         INSERT INTO user_neighborhoods (user_id, neighborhood_id, verified, verified_at)
         VALUES (#{userId}, #{neighborhoodId}, #{verified}, #{verifiedAt})

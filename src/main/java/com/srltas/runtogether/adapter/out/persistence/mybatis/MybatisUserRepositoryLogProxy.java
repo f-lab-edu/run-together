@@ -17,11 +17,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MybatisUserRepositoryLogProxy implements UserRepository {
 
+	private static final String DATABASE_FETCH_TIME = "databaseFetchTime";
+
 	private final UserRepository userRepository;
 
 	@Override
 	public Optional<User> findById(String id) {
-		return Optional.empty();
+		long startTime = System.currentTimeMillis();
+		Optional<User> user = userRepository.findById(id);
+		MDC.put(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
+		return user;
 	}
 
 	@Override
@@ -31,13 +36,13 @@ public class MybatisUserRepositoryLogProxy implements UserRepository {
 	public void addUserNeighborhood(String userId, String neighborhoodId) {
 		long startTime = System.currentTimeMillis();
 		userRepository.addUserNeighborhood(userId, neighborhoodId);
-		MDC.put("DatabaseFetchTime", String.valueOf(System.currentTimeMillis() - startTime));
+		MDC.put(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
 	}
 
 	@Override
 	public void updateVerifiedUserNeighborhood(String userId, UserNeighborhood neighborhood) {
 		long startTime = System.currentTimeMillis();
 		userRepository.updateVerifiedUserNeighborhood(userId, neighborhood);
-		MDC.put("databaseFetchTime", String.valueOf(System.currentTimeMillis() - startTime));
+		MDC.put(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
 	}
 }
