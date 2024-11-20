@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LocationDAO
-{
+public class LocationDAO {
 	private double latitude;
 	private double longitude;
 }
