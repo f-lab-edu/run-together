@@ -3,6 +3,7 @@ package com.srltas.runtogether.application;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,7 +40,7 @@ class UserNeighborhoodServiceTest {
 		String userId = "usr_" + UUID.randomUUID();
 		String neighborhoodId = "nhd" + UUID.randomUUID();
 
-		User user = new User(userId, "testUser");
+		User user = new User(userId, "testUser", new HashMap<>());
 		Neighborhood neighborhood = new Neighborhood(neighborhoodId, "Gangnam",
 			new Location(37.505858, 127.058319), 10.0);
 

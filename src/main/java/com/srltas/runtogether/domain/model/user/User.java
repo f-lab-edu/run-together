@@ -1,6 +1,5 @@
 package com.srltas.runtogether.domain.model.user;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
@@ -8,16 +7,18 @@ import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodDu
 import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodLimitExceededException;
 import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodNotRegisteredException;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
+@Builder
 @RequiredArgsConstructor
 public class User {
 
 	private final String id;
 	private final String name;
-	private final Map<String, UserNeighborhood> userNeighborhoods = new HashMap<>();
+	private final Map<String, UserNeighborhood> userNeighborhoods;
 
 	public void addNeighborhood(Neighborhood neighborhood) {
 		if (userNeighborhoods.size() >= 2) {

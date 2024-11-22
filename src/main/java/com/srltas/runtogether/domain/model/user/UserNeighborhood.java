@@ -5,9 +5,11 @@ import java.time.LocalDateTime;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
 import com.srltas.runtogether.domain.model.neighborhood.exception.AlreadyVerifiedNeighborhoodException;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class UserNeighborhood {
 
 	private final Neighborhood neighborhood;
@@ -17,6 +19,12 @@ public class UserNeighborhood {
 	public UserNeighborhood(Neighborhood neighborhood) {
 		this.neighborhood = neighborhood;
 		this.verified = false;
+	}
+
+	public UserNeighborhood(Neighborhood neighborhood, boolean verified, LocalDateTime verifiedAt) {
+		this.neighborhood = neighborhood;
+		this.verified = verified;
+		this.verifiedAt = verifiedAt;
 	}
 
 	public void verifyNeighborhood() {
