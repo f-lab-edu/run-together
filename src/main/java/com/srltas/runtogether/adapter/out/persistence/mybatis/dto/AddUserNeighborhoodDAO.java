@@ -1,4 +1,4 @@
-package com.srltas.runtogether.adapter.out.persistence.mybatis.dao;
+package com.srltas.runtogether.adapter.out.persistence.mybatis.dto;
 
 import java.time.LocalDateTime;
 

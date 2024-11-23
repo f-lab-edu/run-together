@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.srltas.runtogether.adapter.out.persistence.mybatis.MybatisNeighborhoodMapper">
+
+    <resultMap id="NeighborhoodDTOResultMap" type="NeighborhoodDTO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="boundaryRadius" column="boundary_radius"/>
+        <association property="locationDTO" javaType="LocationDTO">
+            <result property="latitude" column="latitude"/>
+            <result property="longitude" column="longitude"/>
+        </association>
+    </resultMap>
+
+    <select id="findById" parameterType="java.lang.String" resultMap="NeighborhoodDTOResultMap">
+        SELECT
+            id,
+            name,
+            latitude,
+            longitude,
+            boundary_radius
+        FROM neighborhoods
+        WHERE id = #{neighborhoodId}
+    </select>
+</mapper>
