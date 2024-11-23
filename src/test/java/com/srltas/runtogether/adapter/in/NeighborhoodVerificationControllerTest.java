@@ -22,7 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.srltas.runtogether.adapter.in.web.dto.NeighborhoodVerificationRequest;
-import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
+import com.srltas.runtogether.adapter.out.session.UserSession;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResult;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
@@ -47,10 +47,10 @@ class NeighborhoodVerificationControllerTest {
 	@ParameterizedTest
 	@MethodSource("provideRequestsForSuccess")
 	@DisplayName("세션에 사용자 정보가 있을 때 동네 인증 성공 여부 확인")
-	void testVerifyNeighborhood_Success(NeighborhoodVerificationRequest request, UserSessionDTO userSessionDTO) {
+	void testVerifyNeighborhood_Success(NeighborhoodVerificationRequest request, UserSession userSession) {
 		// given
-		when(session.getAttribute(USER_SESSION)).thenReturn(userSessionDTO);
-		when(neighborhoodVerificationUseCase.verifyAndRegisterNeighborhood(eq(userSessionDTO.userId()),
+		when(session.getAttribute(USER_SESSION)).thenReturn(userSession);
+		when(neighborhoodVerificationUseCase.verifyAndRegisterNeighborhood(eq(userSession.userId()),
 			any(NeighborhoodVerificationCommand.class))).thenReturn(neighborhoodVerificationResult);
 
 		// when
@@ -65,10 +65,10 @@ class NeighborhoodVerificationControllerTest {
 	static Stream<Arguments> provideRequestsForSuccess() {
 		return Stream.of(
 			Arguments.of(new NeighborhoodVerificationRequest(37.579617, 126.977041, generateNeighborhoodId()),
-				new UserSessionDTO(generateUserId())),
+				new UserSession(generateUserId())),
 			Arguments.of(new NeighborhoodVerificationRequest(37.556201, 126.972286, generateNeighborhoodId()),
-				new UserSessionDTO(generateUserId() + UUID.randomUUID())),
+				new UserSession(generateUserId() + UUID.randomUUID())),
 			Arguments.of(new NeighborhoodVerificationRequest(37.497911, 127.027618, generateNeighborhoodId()),
-				new UserSessionDTO(generateUserId())));
+				new UserSession(generateUserId())));
 	}
 }

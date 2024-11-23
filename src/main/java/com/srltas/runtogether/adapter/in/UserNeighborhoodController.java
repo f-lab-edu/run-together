@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.srltas.runtogether.adapter.in.web.dto.AddUserNeighborhoodRequest;
-import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
+import com.srltas.runtogether.adapter.out.session.UserSession;
 import com.srltas.runtogether.application.port.in.AddUserNeighborhood;
 import com.srltas.runtogether.application.port.in.AddUserNeighborhoodCommand;
 
@@ -35,7 +35,7 @@ public class UserNeighborhoodController {
 	@PostMapping(USER_NEIGHBORHOOD_REGISTRATION)
 	public ResponseEntity<Void> addUserNeighborhood(
 		@RequestBody @Valid AddUserNeighborhoodRequest request, HttpSession session) {
-		UserSessionDTO userSession = getUserSessionDTO(session);
+		UserSession userSession = getUserSession(session);
 		addUserNeighborhood.addNeighborhood(
 			new AddUserNeighborhoodCommand(userSession.userId(), request.neighborhoodId()));
 		return ResponseEntity.ok().build();

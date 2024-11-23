@@ -14,16 +14,16 @@ public class SessionStorageLogProxy implements SessionStorage {
 	private final SessionStorage sessionStorage;
 
 	@Override
-	public UserSessionDTO getUserFromSessionId(String sessionId) {
+	public UserSession getUserFromSessionId(String sessionId) {
 		long startTime = System.currentTimeMillis();
-		UserSessionDTO userSessionDTO = sessionStorage.getUserFromSessionId(sessionId);
+		UserSession userSession = sessionStorage.getUserFromSessionId(sessionId);
 		MDC.put("sessionFetchTime", String.valueOf(System.currentTimeMillis() - startTime));
-		MDC.put("userId", userSessionDTO.userId());
-		return userSessionDTO;
+		MDC.put("userId", userSession.userId());
+		return userSession;
 	}
 
 	@Override
-	public void saveUserFromSessionId(String sessionId, UserSessionDTO userSessionDTO) {
+	public void saveUserFromSessionId(String sessionId, UserSession userSessionDTO) {
 
 	}
 

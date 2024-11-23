@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.srltas.runtogether.adapter.in.web.dto.AddUserNeighborhoodRequest;
-import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
+import com.srltas.runtogether.adapter.out.session.UserSession;
 import com.srltas.runtogether.application.port.in.AddUserNeighborhood;
 import com.srltas.runtogether.application.port.in.AddUserNeighborhoodCommand;
 
@@ -38,13 +38,13 @@ class UserNeighborhoodControllerTest {
 	@DisplayName("내 동네 등록 성공")
 	void testAddUserNeighborhoodSuccess() {
 		AddUserNeighborhoodRequest request = new AddUserNeighborhoodRequest(generateNeighborhoodId());
-		UserSessionDTO userSessionDTO = new UserSessionDTO(generateUserId());
-		given(session.getAttribute(USER_SESSION)).willReturn(userSessionDTO);
+		UserSession userSession = new UserSession(generateUserId());
+		given(session.getAttribute(USER_SESSION)).willReturn(userSession);
 
 		ResponseEntity<Void> response = userNeighborhoodController.addUserNeighborhood(request, session);
 
 		assertThat(response.getStatusCode(), is(HttpStatus.OK));
 		verify(addUserNeighborhood).addNeighborhood(
-			new AddUserNeighborhoodCommand(userSessionDTO.userId(), request.neighborhoodId()));
+			new AddUserNeighborhoodCommand(userSession.userId(), request.neighborhoodId()));
 	}
 }

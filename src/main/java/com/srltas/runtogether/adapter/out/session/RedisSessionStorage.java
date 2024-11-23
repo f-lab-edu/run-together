@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.srltas.runtogether.adapter.out.session.dao.UserSessionDAO;
+import com.srltas.runtogether.adapter.out.session.dto.UserSessionDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,17 +15,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RedisSessionStorage implements SessionStorage {
 
-	private final RedisTemplate<String, UserSessionDAO> redisTemplate;
+	private final RedisTemplate<String, UserSessionDTO> redisTemplate;
 
 	@Override
-	public UserSessionDTO getUserFromSessionId(String sessionId) {
-		UserSessionDAO userSessionDAO = redisTemplate.opsForValue().get(sessionId);
-		return toUserSessionDTO(Objects.requireNonNull(userSessionDAO));
+	public UserSession getUserFromSessionId(String sessionId) {
+		UserSessionDTO userSessionDTO = redisTemplate.opsForValue().get(sessionId);
+		return toUserSession(Objects.requireNonNull(userSessionDTO));
 	}
 
 	@Override
-	public void saveUserFromSessionId(String sessionId, UserSessionDTO userSessionDTO) {
-		redisTemplate.opsForValue().set(sessionId, toUserSessionDAO(userSessionDTO));
+	public void saveUserFromSessionId(String sessionId, UserSession userSession) {
+		redisTemplate.opsForValue().set(sessionId, toUserSessionDTO(userSession));
 	}
 
 	@Override

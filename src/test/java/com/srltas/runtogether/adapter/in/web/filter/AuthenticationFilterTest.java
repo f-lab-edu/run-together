@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.adapter.out.session.SessionStorage;
-import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
+import com.srltas.runtogether.adapter.out.session.UserSession;
 import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
 
 import jakarta.servlet.FilterChain;
@@ -55,16 +55,16 @@ class AuthenticationFilterTest {
 	@DisplayName("유효한 토큰을 통해 사용자가 인증되는지 확인")
 	void testValidToken_UserAuthenticated() throws ServletException, IOException {
 		// given
-		UserSessionDTO userSessionDTO = new UserSessionDTO(generateUserId());
+		UserSession userSession = new UserSession(generateUserId());
 		when(request.getHeader(AUTHORIZATION)).thenReturn(BEARER_TOKEN_PREFIX + VALID_TOKEN);
-		when(sessionStorage.getUserFromSessionId(VALID_TOKEN)).thenReturn(userSessionDTO);
+		when(sessionStorage.getUserFromSessionId(VALID_TOKEN)).thenReturn(userSession);
 		when(request.getSession(true)).thenReturn(session);
 
 		// when
 		authenticationFilter.doFilterInternal(request, response, filterChain);
 
 		// then
-		verify(session).setAttribute(USER_SESSION, userSessionDTO);
+		verify(session).setAttribute(USER_SESSION, userSession);
 		verify(filterChain).doFilter(request, response);
 		verify(response, never()).sendError(anyInt(), anyString());
 	}
