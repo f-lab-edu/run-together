@@ -4,17 +4,17 @@
 
 <mapper namespace="com.srltas.runtogether.adapter.out.persistence.mybatis.MybatisNeighborhoodMapper">
 
-    <resultMap id="NeighborhoodDAOResultMap" type="NeighborhoodDAO">
+    <resultMap id="NeighborhoodDTOResultMap" type="NeighborhoodDTO">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="boundaryRadius" column="boundary_radius"/>
-        <association property="locationDAO" javaType="LocationDAO">
+        <association property="locationDTO" javaType="LocationDTO">
             <result property="latitude" column="latitude"/>
             <result property="longitude" column="longitude"/>
         </association>
     </resultMap>
 
-    <select id="findById" parameterType="java.lang.String" resultMap="NeighborhoodDAOResultMap">
+    <select id="findById" parameterType="java.lang.String" resultMap="NeighborhoodDTOResultMap">
         SELECT
             id,
             name,

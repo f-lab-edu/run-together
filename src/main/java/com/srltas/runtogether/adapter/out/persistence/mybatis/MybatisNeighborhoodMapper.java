@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.NeighborhoodDAO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.NeighborhoodDTO;
 
 @Mapper
 public interface MybatisNeighborhoodMapper {
-	Optional<NeighborhoodDAO> findById(String id);
+	Optional<NeighborhoodDTO> findById(String id);
 }
