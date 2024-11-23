@@ -12,8 +12,8 @@ import com.srltas.runtogether.domain.model.neighborhood.Location;
 class LocationConverterTest {
 
 	@Test
-	@DisplayName("LocationDAO -> Location")
-	void shouldConvertLocationDAOtoLocation() {
+	@DisplayName("LocationDTO -> Location")
+	void shouldConvertLocationDTOtoLocation() {
 		LocationDTO dto = new LocationDTO(37.497947, 127.027632);
 		Location expectedLocation = new Location(37.497947, 127.027632);
 

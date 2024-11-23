@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 
 @Builder
-public record AddUserNeighborhoodDAO(
+public record AddUserNeighborhoodDTO(
 	String userId,
 	String neighborhoodId,
 	boolean verified,
