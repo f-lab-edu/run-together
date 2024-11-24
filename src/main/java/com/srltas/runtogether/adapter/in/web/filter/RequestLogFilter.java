@@ -5,8 +5,9 @@ import static com.srltas.runtogether.adapter.in.web.common.ApiNameMapper.*;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.slf4j.MDC;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.srltas.runtogether.common.log.RunTogetherMDC;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,7 +29,7 @@ public class RequestLogFilter extends OncePerRequestFilter {
 		} finally {
 			setPostMDC(response, startTime);
 			log.info("");
-			MDC.clear();
+			RunTogetherMDC.clear();
 		}
 	}
 
@@ -36,15 +37,15 @@ public class RequestLogFilter extends OncePerRequestFilter {
 		String path = request.getRequestURI();
 		String method = request.getMethod();
 
-		MDC.put("traceId", UUID.randomUUID().toString() + startTime + Thread.currentThread().threadId());
-		MDC.put("apiName", getApiName(path, method));
-		MDC.put("path", path);
-		MDC.put("method", method);
-		MDC.put("clientIp", request.getRemoteAddr());
+		RunTogetherMDC.put("traceId", UUID.randomUUID().toString() + startTime + Thread.currentThread().threadId());
+		RunTogetherMDC.put("apiName", getApiName(path, method));
+		RunTogetherMDC.put("path", path);
+		RunTogetherMDC.put("method", method);
+		RunTogetherMDC.put("clientIp", request.getRemoteAddr());
 	}
 
 	private void setPostMDC(HttpServletResponse response, long startTime) {
-		MDC.put("status", String.valueOf(response.getStatus()));
-		MDC.put("requestTotalTime", String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.put("status", String.valueOf(response.getStatus()));
+		RunTogetherMDC.put("requestTotalTime", String.valueOf(System.currentTimeMillis() - startTime));
 	}
 }
