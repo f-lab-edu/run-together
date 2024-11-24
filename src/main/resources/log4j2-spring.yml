@@ -38,8 +38,6 @@ Configuration:
               age: 30d
         JsonTemplateLayout:
           eventTemplateUri: "classpath:log_template/access_log.json"
-        JSONLayout:
-          objectMessageAsJsonObject: true
         LevelRangeFilter:
           minLevel: INFO
           maxLevel: INFO

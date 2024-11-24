@@ -5,49 +5,39 @@
     "timeZone": "UTC"
   },
   "trace_id": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "traceId"
   },
   "user_id": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "userId"
   },
   "message": {
-    "request_total_time_ms": {
-      "$resolver": "mdc",
-      "key": "requestTotalTime"
-    },
-    "session_fetch_time_ms": {
-      "$resolver": "mdc",
-      "key": "sessionFetchTime"
-    },
-    "database_fetch_time_ms": {
-      "$resolver": "mdc",
-      "key": "databaseFetchTime"
-    }
+    "$resolver": "runTogetherMDC",
+    "key": "message"
   },
   "api_name": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "apiName"
   },
   "path": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "path"
   },
   "method": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "method"
   },
   "error_code": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "errorCode"
   },
   "status": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "status"
   },
   "client_ip": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "clientIp"
   }
 }
