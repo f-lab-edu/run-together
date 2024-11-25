@@ -1,6 +1,5 @@
 package com.srltas.runtogether.adapter.out.session;
 
-import org.slf4j.MDC;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 

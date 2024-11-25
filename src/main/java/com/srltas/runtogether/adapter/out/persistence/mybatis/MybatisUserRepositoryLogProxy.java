@@ -25,7 +25,7 @@ public class MybatisUserRepositoryLogProxy implements UserRepository {
 	public Optional<User> findById(String id) {
 		long startTime = System.currentTimeMillis();
 		Optional<User> user = userRepository.findById(id);
-		RunTogetherMDC.put(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.putMessage(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
 		return user;
 	}
 
