@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.srltas.runtogether.adapter.in.web.dto.NeighborhoodVerificationRequest;
-import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
+import com.srltas.runtogether.adapter.out.session.UserSession;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationCommand;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationResult;
 import com.srltas.runtogether.application.port.in.NeighborhoodVerificationUseCase;
@@ -37,7 +37,7 @@ public class NeighborhoodVerificationController {
 	@PostMapping(NEIGHBORHOOD_VERIFICATION)
 	public ResponseEntity<NeighborhoodVerificationResult> verifyNeighborhood(
 		@RequestBody @Valid NeighborhoodVerificationRequest neighborhoodVerificationRequest, HttpSession session) {
-		UserSessionDTO userSession = getUserSessionDTO(session);
+		UserSession userSession = getUserSession(session);
 
 		NeighborhoodVerificationCommand neighborhoodVerificationCommand = toCommand(neighborhoodVerificationRequest);
 

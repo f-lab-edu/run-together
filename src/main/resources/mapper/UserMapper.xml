@@ -4,31 +4,31 @@
 
 <mapper namespace="com.srltas.runtogether.adapter.out.persistence.mybatis.MybatisUserMapper">
 
-    <resultMap id="UserDAOResultMap" type="UserDAO">
+    <resultMap id="UserDTOResultMap" type="UserDTO">
         <id property="id" column="user_id" javaType="String"/>
         <result property="name" column="user_name" javaType="String"/>
-        <collection property="userNeighborhoodDAOs" resultMap="UserNeighborhoodDAOResultMap"/>
+        <collection property="userNeighborhoodDTOs" resultMap="UserNeighborhoodDTOResultMap"/>
     </resultMap>
 
-    <resultMap id="UserNeighborhoodDAOResultMap" type="UserNeighborhoodDAO">
+    <resultMap id="UserNeighborhoodDTOResultMap" type="UserNeighborhoodDTO">
         <result property="verified" column="verified"/>
         <result property="verifiedAt" column="verified_at"/>
-        <association property="neighborhoodDAO" resultMap="NeighborhoodDAOResultMap"/>
+        <association property="neighborhoodDTO" resultMap="NeighborhoodDTOResultMap"/>
     </resultMap>
 
-    <resultMap id="NeighborhoodDAOResultMap" type="NeighborhoodDAO">
+    <resultMap id="NeighborhoodDTOResultMap" type="NeighborhoodDTO">
         <id property="id" column="neighborhood_id"/>
         <result property="name" column="neighborhood_name"/>
         <result property="boundaryRadius" column="boundary_radius"/>
-        <association property="locationDAO" resultMap="LocationDAOResultMap"/>
+        <association property="locationDTO" resultMap="LocationDTOResultMap"/>
     </resultMap>
 
-    <resultMap id="LocationDAOResultMap" type="LocationDAO">
+    <resultMap id="LocationDTOResultMap" type="LocationDTO">
         <result property="latitude" column="latitude"/>
         <result property="longitude" column="longitude"/>
     </resultMap>
 
-    <select id="findById" parameterType="String" resultMap="UserDAOResultMap">
+    <select id="findById" parameterType="String" resultMap="UserDTOResultMap">
         SELECT
             u.id AS user_id,
             u.name AS user_name,
@@ -45,12 +45,12 @@
         WHERE u.id = #{id}
     </select>
 
-    <insert id="addUserNeighborhood" parameterType="AddUserNeighborhoodDAO">
+    <insert id="addUserNeighborhood" parameterType="AddUserNeighborhoodDTO">
         INSERT INTO user_neighborhoods (user_id, neighborhood_id, verified, verified_at)
         VALUES (#{userId}, #{neighborhoodId}, #{verified}, #{verifiedAt})
     </insert>
 
-    <update id="updateVerifiedUserNeighborhood" parameterType="VerifiedUserNeighborhoodDAO">
+    <update id="updateVerifiedUserNeighborhood" parameterType="VerifiedUserNeighborhoodDTO">
         UPDATE user_neighborhoods
         SET verified = #{verified}, verified_at = #{verifiedAt}
         WHERE user_id = #{userId} AND neighborhood_id = #{neighborhoodId}

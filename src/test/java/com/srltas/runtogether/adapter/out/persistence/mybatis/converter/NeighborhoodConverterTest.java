@@ -18,13 +18,13 @@ import com.srltas.runtogether.testutil.TestIdGenerator;
 class NeighborhoodConverterTest {
 
 	@Test
-	@DisplayName("NeighborhoodDAO -> Neighborhood")
-	void shouldConvertNeighborhoodDAOtoNeighborhood() {
+	@DisplayName("NeighborhoodDTO -> Neighborhood")
+	void shouldConvertNeighborhoodDTOtoNeighborhood() {
 		String neighborhoodId = TestIdGenerator.generateNeighborhoodId();
 		String neighborhoodName = "Test_Neighborhood";
 		Location mockLocation = mock(Location.class);
 
-		NeighborhoodDTO neighborhoodDAO = new NeighborhoodDTO(
+		NeighborhoodDTO neighborhoodDTO = new NeighborhoodDTO(
 			neighborhoodId, neighborhoodName, mock(LocationDTO.class), 10.0);
 		Neighborhood expectedNeighborhood = new Neighborhood(
 			neighborhoodId, neighborhoodName, mockLocation, 10.0);
@@ -34,7 +34,7 @@ class NeighborhoodConverterTest {
 			locationConverterMock.when(() -> LocationConverter.toLocation(any(LocationDTO.class)))
 				.thenReturn(mockLocation);
 
-			resultNeighborhood = NeighborhoodConverter.toNeighborhood(neighborhoodDAO);
+			resultNeighborhood = NeighborhoodConverter.toNeighborhood(neighborhoodDTO);
 		}
 
 		assertThat(resultNeighborhood, is(expectedNeighborhood));

@@ -10,7 +10,7 @@ import java.io.IOException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.srltas.runtogether.adapter.out.session.SessionStorage;
-import com.srltas.runtogether.adapter.out.session.UserSessionDTO;
+import com.srltas.runtogether.adapter.out.session.UserSession;
 import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
 
 import jakarta.servlet.FilterChain;
@@ -30,14 +30,14 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		throws IOException, ServletException {
 		String authorizationHeader = request.getHeader(AUTHORIZATION);
 		String token = extractToken(authorizationHeader);
-		UserSessionDTO userSessionDTO;
+		UserSession userSession;
 
-		if (isNull(token) || isNull(userSessionDTO = sessionStorage.getUserFromSessionId(token))) {
+		if (isNull(token) || isNull(userSession = sessionStorage.getUserFromSessionId(token))) {
 			throw new UnauthorizedException(UNAUTHORIZED_REQUEST);
 		}
 
 		HttpSession session = request.getSession(true);
-		session.setAttribute(USER_SESSION, userSessionDTO);
+		session.setAttribute(USER_SESSION, userSession);
 
 		filterChain.doFilter(request, response);
 	}

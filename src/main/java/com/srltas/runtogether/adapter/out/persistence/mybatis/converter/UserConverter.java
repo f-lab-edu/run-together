@@ -1,8 +1,8 @@
 package com.srltas.runtogether.adapter.out.persistence.mybatis.converter;
 
-import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.AddUserNeighborhoodDAO;
-import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.UserDAO;
-import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.VerifiedUserNeighborhoodDAO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.AddUserNeighborhoodDTO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.UserDTO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.VerifiedUserNeighborhoodDTO;
 import com.srltas.runtogether.domain.model.user.User;
 import com.srltas.runtogether.domain.model.user.UserNeighborhood;
 
@@ -11,16 +11,16 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserConverter {
 
-	public User toUser(UserDAO dao) {
+	public User toUser(UserDTO dto) {
 		return User.builder()
-			.id(dao.getId())
-			.name(dao.getName())
-			.userNeighborhoods(UserNeighborhoodConverter.toUserNeighborhoods(dao.getUserNeighborhoodDAOs()))
+			.id(dto.getId())
+			.name(dto.getName())
+			.userNeighborhoods(UserNeighborhoodConverter.toUserNeighborhoods(dto.getUserNeighborhoodDTOs()))
 			.build();
 	}
 
-	public AddUserNeighborhoodDAO toAddUserNeighborhood(String userId, String neighborhoodId) {
-		return AddUserNeighborhoodDAO.builder()
+	public AddUserNeighborhoodDTO toAddUserNeighborhood(String userId, String neighborhoodId) {
+		return AddUserNeighborhoodDTO.builder()
 			.userId(userId)
 			.neighborhoodId(neighborhoodId)
 			.verified(false)
@@ -28,8 +28,8 @@ public class UserConverter {
 			.build();
 	}
 
-	public VerifiedUserNeighborhoodDAO toVerifiedUserNeighborhoodDAO(String userId, UserNeighborhood userNeighborhood) {
-		return VerifiedUserNeighborhoodDAO.builder()
+	public VerifiedUserNeighborhoodDTO toVerifiedUserNeighborhoodDTO(String userId, UserNeighborhood userNeighborhood) {
+		return VerifiedUserNeighborhoodDTO.builder()
 			.userId(userId)
 			.neighborhoodId(userNeighborhood.getNeighborhood().getId())
 			.verified(userNeighborhood.isVerified())

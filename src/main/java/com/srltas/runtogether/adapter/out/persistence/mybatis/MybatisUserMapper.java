@@ -4,13 +4,13 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.AddUserNeighborhoodDAO;
-import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.UserDAO;
-import com.srltas.runtogether.adapter.out.persistence.mybatis.dao.VerifiedUserNeighborhoodDAO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.AddUserNeighborhoodDTO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.UserDTO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.VerifiedUserNeighborhoodDTO;
 
 @Mapper
 public interface MybatisUserMapper {
-	Optional<UserDAO> findById(String id);
-	void addUserNeighborhood(AddUserNeighborhoodDAO dao);
-	void updateVerifiedUserNeighborhood(VerifiedUserNeighborhoodDAO dao);
+	Optional<UserDTO> findById(String id);
+	void addUserNeighborhood(AddUserNeighborhoodDTO dto);
+	void updateVerifiedUserNeighborhood(VerifiedUserNeighborhoodDTO dto);
 }

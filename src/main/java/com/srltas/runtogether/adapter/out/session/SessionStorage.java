@@ -2,9 +2,9 @@ package com.srltas.runtogether.adapter.out.session;
 
 public interface SessionStorage {
 
-	UserSessionDTO getUserFromSessionId(String sessionId);
+	UserSession getUserFromSessionId(String sessionId);
 
-	void saveUserFromSessionId(String sessionId, UserSessionDTO userSessionDTO);
+	void saveUserFromSessionId(String sessionId, UserSession userSession);
 
 	void removeUserFromSessionId(String sessionId);
 }
