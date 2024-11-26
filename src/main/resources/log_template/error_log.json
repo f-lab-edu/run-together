@@ -5,24 +5,26 @@
     "timeZone": "UTC"
   },
   "trace_id": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "traceId"
   },
   "error_code": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "errorCode"
   },
+  "error_name": {
+    "$resolver": "runTogetherMDC",
+    "key": "errorName"
+  },
+  "error_message": {
+    "$resolver": "message"
+  },
   "message": {
-    "error_name": {
-      "$resolver": "mdc",
-      "key": "errorName"
-    },
-    "error_message": {
-      "$resolver": "message"
-    }
+    "$resolver": "runTogetherMDC",
+    "key": "message"
   },
   "api_name": {
-    "$resolver": "mdc",
+    "$resolver": "runTogetherMDC",
     "key": "apiName"
   }
 }

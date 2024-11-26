@@ -2,7 +2,6 @@ package com.srltas.runtogether.adapter;
 
 import static com.srltas.runtogether.common.exception.code.CommonErrorCode.*;
 
-import org.slf4j.MDC;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +25,7 @@ import com.srltas.runtogether.application.exception.EntityNotFoundException;
 import com.srltas.runtogether.common.exception.ErrorResponse;
 import com.srltas.runtogether.common.exception.RunTogetherException;
 import com.srltas.runtogether.common.exception.code.ErrorCode;
+import com.srltas.runtogether.common.log.RunTogetherMDC;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -121,12 +121,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	private void logAccess(ErrorCode errorCode) {
-		MDC.put("errorCode", String.valueOf(errorCode.getCode()));
+		RunTogetherMDC.put("errorCode", String.valueOf(errorCode.getCode()));
 	}
 
 	private void logError(ErrorCode errorCode, Exception ex) {
-		MDC.put("errorCode", String.valueOf(errorCode.getCode()));
-		MDC.put("errorName", ex.getClass().getSimpleName());
+		RunTogetherMDC.put("errorCode", String.valueOf(errorCode.getCode()));
+		RunTogetherMDC.put("errorName", ex.getClass().getSimpleName());
 		log.error(ex.getMessage());
 	}
 }
