@@ -32,6 +32,14 @@ public class User {
 		userNeighborhoods.put(neighborhood.getId(), new UserNeighborhood(neighborhood));
 	}
 
+	public void deleteNeighborhood(String neighborhoodId) {
+		if (!userNeighborhoods.containsKey(neighborhoodId)) {
+			throw new NeighborhoodNotRegisteredException();
+		}
+
+		userNeighborhoods.remove(neighborhoodId);
+	}
+
 	public UserNeighborhood verifiedNeighborhood(String neighborhoodId) {
 		UserNeighborhood userNeighborhood = userNeighborhoods.computeIfAbsent(neighborhoodId, id -> {
 			throw new NeighborhoodNotRegisteredException();
