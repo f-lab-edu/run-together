@@ -35,6 +35,11 @@ public class MybatisUserRepository implements UserRepository {
 	}
 
 	@Override
+	public void deleteUserNeighborhood(String userId, String neighborhoodId) {
+		mapper.deleteUserNeighborhood(toDeleteUserNeighborhood(userId, neighborhoodId));
+	}
+
+	@Override
 	public void updateVerifiedUserNeighborhood(String userId, UserNeighborhood userNeighborhood) {
 		mapper.updateVerifiedUserNeighborhood(toVerifiedUserNeighborhoodDTO(userId, userNeighborhood));
 	}

@@ -55,4 +55,9 @@
         SET verified = #{verified}, verified_at = #{verifiedAt}
         WHERE user_id = #{userId} AND neighborhood_id = #{neighborhoodId}
     </update>
+
+    <delete id="deleteUserNeighborhood" parameterType="DeleteUserNeighborhoodDTO">
+        DELETE FROM user_neighborhoods
+        WHERE user_id = #{userId} AND neighborhood_id = #{neighborhoodId}
+    </delete>
 </mapper>

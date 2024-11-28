@@ -40,6 +40,13 @@ public class MybatisUserRepositoryLogProxy implements UserRepository {
 	}
 
 	@Override
+	public void deleteUserNeighborhood(String userId, String neighborhoodId) {
+		long startTime = System.currentTimeMillis();
+		userRepository.deleteUserNeighborhood(userId, neighborhoodId);
+		RunTogetherMDC.putMessage(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
+	}
+
+	@Override
 	public void updateVerifiedUserNeighborhood(String userId, UserNeighborhood neighborhood) {
 		long startTime = System.currentTimeMillis();
 		userRepository.updateVerifiedUserNeighborhood(userId, neighborhood);
