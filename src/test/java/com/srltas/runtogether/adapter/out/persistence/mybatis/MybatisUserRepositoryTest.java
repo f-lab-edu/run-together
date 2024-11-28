@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.AddUserNeighborhoodDTO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.DeleteUserNeighborhoodDTO;
 import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.VerifiedUserNeighborhoodDTO;
 import com.srltas.runtogether.domain.model.neighborhood.Location;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
@@ -42,5 +43,12 @@ class MybatisUserRepositoryTest {
 	void shouldCallMapperToAddUserNeighborhood() {
 		mybatisUserRepository.addUserNeighborhood(generateUserId(), generateNeighborhoodId());
 		verify(mybatisUserMapper).addUserNeighborhood(any(AddUserNeighborhoodDTO.class));
+	}
+
+	@Test
+	@DisplayName("내 동네 삭제 SQL 실행 위임 검증")
+	void shouldCallMapperToDeleteUserNeighborhood() {
+		mybatisUserRepository.deleteUserNeighborhood(generateUserId(), generateNeighborhoodId());
+		verify(mybatisUserMapper).deleteUserNeighborhood(any(DeleteUserNeighborhoodDTO.class));
 	}
 }
