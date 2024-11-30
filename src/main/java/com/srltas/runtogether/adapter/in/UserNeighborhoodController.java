@@ -52,7 +52,7 @@ public class UserNeighborhoodController {
 		summary = "내 동네 삭제",
 		description = "사용자의 내 동네를 삭제합니다."
 	)
-	@ApiResponse(responseCode = "200", description = "내 동네 삭세 성공")
+	@ApiResponse(responseCode = "200", description = "내 동네 삭제 성공")
 	@DeleteMapping("/{neighborhoodId}")
 	public ResponseEntity<Void> deleteUserNeighborhood(
 		HttpSession session,
