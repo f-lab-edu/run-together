@@ -17,15 +17,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MybatisUserRepositoryLogProxy implements UserRepository {
 
-	private static final String DATABASE_FETCH_TIME = "databaseFetchTime";
-
 	private final UserRepository userRepository;
 
 	@Override
 	public Optional<User> findById(String id) {
 		long startTime = System.currentTimeMillis();
 		Optional<User> user = userRepository.findById(id);
-		RunTogetherMDC.putMessage(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.putMessage("user_findById_SQL_time", String.valueOf(System.currentTimeMillis() - startTime));
 		return user;
 	}
 
@@ -36,20 +34,20 @@ public class MybatisUserRepositoryLogProxy implements UserRepository {
 	public void addUserNeighborhood(String userId, String neighborhoodId) {
 		long startTime = System.currentTimeMillis();
 		userRepository.addUserNeighborhood(userId, neighborhoodId);
-		RunTogetherMDC.putMessage(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.putMessage("add_user_SQL_time", String.valueOf(System.currentTimeMillis() - startTime));
 	}
 
 	@Override
 	public void deleteUserNeighborhood(String userId, String neighborhoodId) {
 		long startTime = System.currentTimeMillis();
 		userRepository.deleteUserNeighborhood(userId, neighborhoodId);
-		RunTogetherMDC.putMessage(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.putMessage("delete_user_SQL_time", String.valueOf(System.currentTimeMillis() - startTime));
 	}
 
 	@Override
 	public void updateVerifiedUserNeighborhood(String userId, UserNeighborhood neighborhood) {
 		long startTime = System.currentTimeMillis();
 		userRepository.updateVerifiedUserNeighborhood(userId, neighborhood);
-		RunTogetherMDC.putMessage(DATABASE_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.putMessage("update_verified_user_SQL_time", String.valueOf(System.currentTimeMillis() - startTime));
 	}
 }
