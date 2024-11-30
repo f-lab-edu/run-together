@@ -25,7 +25,12 @@ public enum ApiName {
 
 	public static Optional<ApiName> from(String path, String method) {
 		return Arrays.stream(values())
-			.filter(apiName -> apiName.path.equals(path) && apiName.method.matches(method))
+			.filter(apiName -> pathMatches(apiName.path, path) && apiName.method.matches(method))
 			.findFirst();
+	}
+
+	private static boolean pathMatches(String apiPath, String requestPath) {
+		String regexPattern = apiPath.replace("*", ".*");
+		return requestPath.matches(regexPattern);
 	}
 }
