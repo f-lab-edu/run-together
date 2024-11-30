@@ -26,7 +26,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "내 동네 API", description = "내 동네 API")
-@RequestMapping(USER_NEIGHBORHOOD_REGISTRATION)
+@RequestMapping(USER_NEIGHBORHOOD)
 @RestController
 @RequiredArgsConstructor
 public class UserNeighborhoodController {
