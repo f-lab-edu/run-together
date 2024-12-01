@@ -65,4 +65,23 @@ class ExceptionTranslationFilterTest {
 
 		assertThat(exception.getMessage(), is("Runtime_Exception"));
 	}
+
+	@Test
+	@DisplayName("예외가 중첩되 있는 경우 처리 테스트")
+	void testDoFilter_NestedUnauthorizedException_HandlesException() throws ServletException, IOException {
+		UnauthorizedException unauthorizedException = new UnauthorizedException(UNAUTHORIZED_REQUEST);
+		RuntimeException nestedException = new RuntimeException("Nested", unauthorizedException);
+
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		FilterChain chain = mock(FilterChain.class);
+
+		doThrow(nestedException).when(chain).doFilter(request, response);
+
+		ExceptionTranslationFilter filter = new ExceptionTranslationFilter();
+		filter.doFilter(request, response, chain);
+
+		assertThat(response.getStatus(), is(HttpStatus.UNAUTHORIZED.value()));
+		assertThat(response.getContentAsString(), is(containsString(UNAUTHORIZED_REQUEST.getMessage())));
+	}
 }
