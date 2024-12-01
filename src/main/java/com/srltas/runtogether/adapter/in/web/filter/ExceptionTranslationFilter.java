@@ -43,11 +43,11 @@ public class ExceptionTranslationFilter extends GenericFilterBean {
 			RuntimeException securityException =
 				(UnauthorizedException)getFirstThrowableOfType(UnauthorizedException.class, causeChain);
 
-			handleRunTogetherSecurityException(response, request, chain, securityException);
-
 			if (securityException == null) {
 				rethrow(ex);
 			}
+
+			handleRunTogetherSecurityException(response, request, chain, securityException);
 		}
 	}
 
