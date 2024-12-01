@@ -51,7 +51,7 @@ class ExceptionTranslationFilterTest {
 	}
 
 	@Test
-	@DisplayName("다른 예외가 발생했을 때 재발생하는지 테스트")
+	@DisplayName("보안 관련 예외가 아닌 경우 해당 예외를 다시 던지는지 테스트")
 	void testDoFilter_OtherException_RethrowsException() throws ServletException, IOException {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
