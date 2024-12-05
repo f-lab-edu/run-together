@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SessionStorageLogProxy implements SessionStorage {
 
-	private static final String SESSION_FETCH_TIME = "sessionFetchTime";
+	private static final String USER_SESSION_FETCH_TIME = "user_session_fetch_time";
 	private static final String USER_ID = "userId";
 
 	private final SessionStorage sessionStorage;
@@ -21,7 +21,7 @@ public class SessionStorageLogProxy implements SessionStorage {
 	public UserSession getUserFromSessionId(String sessionId) {
 		long startTime = System.currentTimeMillis();
 		UserSession userSession = sessionStorage.getUserFromSessionId(sessionId);
-		RunTogetherMDC.putMessage(SESSION_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.putMessage(USER_SESSION_FETCH_TIME, String.valueOf(System.currentTimeMillis() - startTime));
 		RunTogetherMDC.put(USER_ID, userSession.userId());
 		return userSession;
 	}

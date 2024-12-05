@@ -16,7 +16,8 @@ import lombok.RequiredArgsConstructor;
 public enum ApiName {
 
 	VERIFY_USER_NEIGHBORHOOD(NEIGHBORHOOD_VERIFICATION, POST, "VERIFY_USER_NEIGHBORHOOD"),
-	REGISTER_USER_NEIGHBORHOOD(USER_NEIGHBORHOOD_REGISTRATION, POST, "REGISTER_USER_NEIGHBORHOOD");
+	REGISTER_USER_NEIGHBORHOOD(USER_NEIGHBORHOOD, POST, "REGISTER_USER_NEIGHBORHOOD"),
+	DELETE_USER_NEIGHBORHOOD(USER_NEIGHBORHOOD_PATTERN, DELETE, "DELETE_USER_NEIGHBORHOOD");
 
 	private final String path;
 	private final HttpMethod method;
@@ -24,7 +25,12 @@ public enum ApiName {
 
 	public static Optional<ApiName> from(String path, String method) {
 		return Arrays.stream(values())
-			.filter(apiName -> apiName.path.equals(path) && apiName.method.matches(method))
+			.filter(apiName -> pathMatches(apiName.path, path) && apiName.method.matches(method))
 			.findFirst();
+	}
+
+	private static boolean pathMatches(String apiPath, String requestPath) {
+		String regexPattern = apiPath.replace("*", ".*");
+		return requestPath.matches(regexPattern);
 	}
 }

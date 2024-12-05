@@ -1,6 +1,7 @@
 package com.srltas.runtogether.adapter.out.persistence.mybatis.converter;
 
 import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.AddUserNeighborhoodDTO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.DeleteUserNeighborhoodDTO;
 import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.UserDTO;
 import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.VerifiedUserNeighborhoodDTO;
 import com.srltas.runtogether.domain.model.user.User;
@@ -25,6 +26,13 @@ public class UserConverter {
 			.neighborhoodId(neighborhoodId)
 			.verified(false)
 			.verifiedAt(null)
+			.build();
+	}
+
+	public DeleteUserNeighborhoodDTO toDeleteUserNeighborhood(String userId, String neighborhoodId) {
+		return DeleteUserNeighborhoodDTO.builder()
+			.userId(userId)
+			.neighborhoodId(neighborhoodId)
 			.build();
 	}
 

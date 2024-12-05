@@ -31,6 +31,16 @@ class UserTest {
 	}
 
 	@Test
+	@DisplayName("성공적으로 내 동네를 삭제한다")
+	void testDeleteUserNeighborhoodSuccess() {
+		user.addNeighborhood(neighborhood1);
+
+		user.deleteNeighborhood(neighborhoodId1);
+
+		assertThat(user.getUserNeighborhoods().size(), is(0));
+	}
+
+	@Test
 	@DisplayName("동네 인증이 정상적으로 동작한다")
 	void testVerifyNeighborhoodSuccess() {
 		user.addNeighborhood(neighborhood1);
