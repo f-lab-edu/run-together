@@ -46,6 +46,6 @@ public class RequestLogFilter extends OncePerRequestFilter {
 
 	private void setPostMDC(HttpServletResponse response, long startTime) {
 		RunTogetherMDC.put("status", String.valueOf(response.getStatus()));
-		RunTogetherMDC.put("requestTotalTime", String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.putMessage("request_total_time", String.valueOf(System.currentTimeMillis() - startTime));
 	}
 }
