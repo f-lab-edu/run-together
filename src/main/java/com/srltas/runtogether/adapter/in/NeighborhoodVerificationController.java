@@ -1,7 +1,7 @@
 package com.srltas.runtogether.adapter.in;
 
+import static com.srltas.runtogether.adapter.in.web.common.ControllerUrlConstants.*;
 import static com.srltas.runtogether.adapter.in.web.common.SessionUtils.*;
-import static com.srltas.runtogether.adapter.in.web.common.UrlConstants.*;
 import static com.srltas.runtogether.adapter.in.web.dto.mapper.NeighborhoodVerificationMapper.*;
 
 import org.springframework.http.ResponseEntity;
