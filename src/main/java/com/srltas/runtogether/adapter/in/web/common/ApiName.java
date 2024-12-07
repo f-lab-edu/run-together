@@ -1,6 +1,6 @@
 package com.srltas.runtogether.adapter.in.web.common;
 
-import static com.srltas.runtogether.adapter.in.web.common.UrlConstants.*;
+import static com.srltas.runtogether.adapter.in.web.common.FilterUrlConstants.*;
 import static org.springframework.http.HttpMethod.*;
 
 import java.util.Arrays;
@@ -15,9 +15,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ApiName {
 
-	VERIFY_USER_NEIGHBORHOOD(NEIGHBORHOOD_VERIFICATION, POST, "VERIFY_USER_NEIGHBORHOOD"),
+	VERIFY_USER_NEIGHBORHOOD(USER_NEIGHBORHOOD_VERIFICATION, POST, "VERIFY_USER_NEIGHBORHOOD"),
 	REGISTER_USER_NEIGHBORHOOD(USER_NEIGHBORHOOD, POST, "REGISTER_USER_NEIGHBORHOOD"),
-	DELETE_USER_NEIGHBORHOOD(USER_NEIGHBORHOOD_PATTERN, DELETE, "DELETE_USER_NEIGHBORHOOD");
+	DELETE_USER_NEIGHBORHOOD(USER_NEIGHBORHOOD_WILDCARD, DELETE, "DELETE_USER_NEIGHBORHOOD");
 
 	private final String path;
 	private final HttpMethod method;

@@ -1,6 +1,6 @@
 package com.srltas.runtogether.config;
 
-import static com.srltas.runtogether.adapter.in.web.common.UrlConstants.*;
+import static com.srltas.runtogether.adapter.in.web.common.FilterUrlConstants.*;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
