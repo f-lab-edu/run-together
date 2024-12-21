@@ -4,5 +4,5 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class SessionAttribute {
-	public final String USER_SESSION = "USER_SESSION";
+	public static final String USER_SESSION = "USER_SESSION";
 }
