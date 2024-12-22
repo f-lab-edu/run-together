@@ -30,7 +30,7 @@ class NeighborhoodConverterTest {
 			neighborhoodId, neighborhoodName, mockLocation, 10.0);
 
 		Neighborhood resultNeighborhood;
-		try(MockedStatic<LocationConverter> locationConverterMock = mockStatic(LocationConverter.class)) {
+		try (MockedStatic<LocationConverter> locationConverterMock = mockStatic(LocationConverter.class)) {
 			locationConverterMock.when(() -> LocationConverter.toLocation(any(LocationDTO.class)))
 				.thenReturn(mockLocation);
 

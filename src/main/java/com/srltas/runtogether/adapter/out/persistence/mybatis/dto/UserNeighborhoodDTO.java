@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UserNeighborhoodDTO
-{
+public class UserNeighborhoodDTO {
 	private NeighborhoodDTO neighborhoodDTO;
 	private boolean verified;
 	private LocalDateTime verifiedAt;
