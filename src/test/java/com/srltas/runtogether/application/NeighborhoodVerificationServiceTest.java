@@ -71,7 +71,7 @@ class NeighborhoodVerificationServiceTest {
 			given(userRepository.findById(userId)).willReturn(Optional.of(user));
 
 			try (MockedStatic<LocationMapper> locationMapperMock = mockStatic(LocationMapper.class);
-				  MockedStatic<LocationUtils> locationUtilsMock = mockStatic(LocationUtils.class)) {
+				 MockedStatic<LocationUtils> locationUtilsMock = mockStatic(LocationUtils.class)) {
 
 				locationMapperMock.when(
 						() -> LocationMapper.neighborhoodVerificationCommandToDomain(neighborhoodVerificationCommand))
