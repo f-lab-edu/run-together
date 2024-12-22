@@ -2,9 +2,10 @@ package com.srltas.runtogether.application;
 
 import org.springframework.stereotype.Service;
 
+import com.srltas.runtogether.application.exception.NeighborhoodNotFoundException;
+import com.srltas.runtogether.application.exception.UserNotFoundException;
 import com.srltas.runtogether.application.port.in.AddUserNeighborhood;
 import com.srltas.runtogether.application.port.in.AddUserNeighborhoodCommand;
-import com.srltas.runtogether.application.exception.NeighborhoodNotFoundException;
 import com.srltas.runtogether.application.port.in.DeleteUserNeighborhood;
 import com.srltas.runtogether.application.port.in.DeleteUserNeighborhoodCommand;
 import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
@@ -12,7 +13,6 @@ import com.srltas.runtogether.domain.model.neighborhood.NeighborhoodRepository;
 import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodNotRegisteredException;
 import com.srltas.runtogether.domain.model.user.User;
 import com.srltas.runtogether.domain.model.user.UserRepository;
-import com.srltas.runtogether.application.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

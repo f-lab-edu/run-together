@@ -17,9 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
 import com.srltas.runtogether.adapter.out.session.SessionStorage;
 import com.srltas.runtogether.adapter.out.session.UserSession;
-import com.srltas.runtogether.adapter.in.exception.UnauthorizedException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

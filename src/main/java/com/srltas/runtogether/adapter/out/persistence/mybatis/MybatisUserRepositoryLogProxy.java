@@ -28,7 +28,8 @@ public class MybatisUserRepositoryLogProxy implements UserRepository {
 	}
 
 	@Override
-	public void save(User user) {	}
+	public void save(User user) {
+	}
 
 	@Override
 	public void addUserNeighborhood(String userId, String neighborhoodId) {
@@ -48,6 +49,7 @@ public class MybatisUserRepositoryLogProxy implements UserRepository {
 	public void updateVerifiedUserNeighborhood(String userId, UserNeighborhood neighborhood) {
 		long startTime = System.currentTimeMillis();
 		userRepository.updateVerifiedUserNeighborhood(userId, neighborhood);
-		RunTogetherMDC.putMessage("update_verified_user_SQL_time", String.valueOf(System.currentTimeMillis() - startTime));
+		RunTogetherMDC.putMessage("update_verified_user_SQL_time",
+			String.valueOf(System.currentTimeMillis() - startTime));
 	}
 }

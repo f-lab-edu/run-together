@@ -12,7 +12,10 @@ import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.VerifiedUserNe
 @Mapper
 public interface MybatisUserMapper {
 	Optional<UserDTO> findById(String id);
+
 	void addUserNeighborhood(AddUserNeighborhoodDTO dto);
+
 	void deleteUserNeighborhood(DeleteUserNeighborhoodDTO dto);
+
 	void updateVerifiedUserNeighborhood(VerifiedUserNeighborhoodDTO dto);
 }

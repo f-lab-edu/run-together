@@ -5,7 +5,7 @@ import com.srltas.runtogether.common.exception.code.ErrorCode;
 
 public class UnauthorizedException extends RunTogetherException {
 
-  public UnauthorizedException(ErrorCode errorCode) {
-    super(errorCode);
-  }
+	public UnauthorizedException(ErrorCode errorCode) {
+		super(errorCode);
+	}
 }
