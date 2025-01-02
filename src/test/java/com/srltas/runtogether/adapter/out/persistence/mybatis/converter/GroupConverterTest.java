@@ -35,8 +35,8 @@ class GroupConverterTest {
 			.id(groupId)
 			.name("Test Group")
 			.description("Test Description")
-			.neighborhood(mockNeighborhood)
-			.createByUser(mockUser)
+			.neighborhoodId(neighborhoodId)
+			.createByUserId(userId)
 			.createdAt(createTime)
 			.build();
 

@@ -12,8 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.AddGroupDTO;
 import com.srltas.runtogether.domain.model.group.Group;
-import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
-import com.srltas.runtogether.domain.model.user.User;
 
 @ExtendWith(MockitoExtension.class)
 class MybatisGroupRepositoryTest {
@@ -28,14 +26,9 @@ class MybatisGroupRepositoryTest {
 	@DisplayName("러닝 그룹 조회 SQL 실행 위임을 검증")
 	void shouldCallMapperToGroupRepository() {
 		Group mockGroup = mock(Group.class);
-		Neighborhood mockNeighborhood = mock(Neighborhood.class);
-		User mockUser = mock(User.class);
 
-		when(mockGroup.getNeighborhood()).thenReturn(mockNeighborhood);
-		when(mockGroup.getCreateByUser()).thenReturn(mockUser);
-
-		when(mockNeighborhood.getId()).thenReturn(generateNeighborhoodId());
-		when(mockUser.getId()).thenReturn(generateUserId());
+		when(mockGroup.getNeighborhoodId()).thenReturn(generateNeighborhoodId());
+		when(mockGroup.getCreateByUserId()).thenReturn(generateUserId());
 
 		groupRepository.save(mockGroup);
 		verify(groupMapper).save(any(AddGroupDTO.class));

@@ -1,10 +1,7 @@
 package com.srltas.runtogether.domain.model.group;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-
-import com.srltas.runtogether.domain.model.neighborhood.Neighborhood;
-import com.srltas.runtogether.domain.model.user.User;
+import java.util.Set;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -18,9 +15,9 @@ public class Group {
 	private final String id;
 	private final String name;
 	private final String description;
-	private final Neighborhood neighborhood;
-	private final User createByUser;
+	private final String neighborhoodId;
+	private final String createByUserId;
 	private final LocalDateTime createdAt;
 
-	private final Map<String, User> groupMembers;
+	private final Set<String> groupMemberIds;
 }
