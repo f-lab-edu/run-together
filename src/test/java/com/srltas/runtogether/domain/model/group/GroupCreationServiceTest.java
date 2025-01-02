@@ -26,19 +26,19 @@ class GroupCreationServiceTest {
 	@InjectMocks
 	private GroupCreationService groupCreationService;
 
-	private final String USER_ID = generateUserId();
-	private final String VALID_NEIGHBORHOOD_ID = generateNeighborhoodId();
-	private final String INVALID_NEIGHBORHOOD_ID = generateNeighborhoodId();
+	private final String userId = generateUserId();
+	private final String validNeighborhoodId = generateNeighborhoodId();
+	private final String invalidNeighborhoodId = generateNeighborhoodId();
 
 	private User mockUser = mock(User.class);
 
 	@Test
 	@DisplayName("그룹 생성 성공")
 	void testCreateGroupSuccess() {
-		when(userRepository.findById(USER_ID)).thenReturn(Optional.of(mockUser));
-		when(mockUser.isVerifiedNeighborhood(VALID_NEIGHBORHOOD_ID)).thenReturn(true);
+		when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+		when(mockUser.isVerifiedNeighborhood(validNeighborhoodId)).thenReturn(true);
 
-		Group group = groupCreationService.create("Test Group", "Test Desc", VALID_NEIGHBORHOOD_ID, USER_ID);
+		Group group = groupCreationService.create("Test Group", "Test Desc", validNeighborhoodId, userId);
 
 		assertThat(group).isNotNull();
 	}
@@ -46,11 +46,11 @@ class GroupCreationServiceTest {
 	@Test
 	@DisplayName("그룹 생성 실패(내 동네로 등록하지 않음)")
 	void testCreateGroupFailure() {
-		when(userRepository.findById(USER_ID)).thenReturn(Optional.of(mockUser));
-		when(mockUser.isVerifiedNeighborhood(INVALID_NEIGHBORHOOD_ID)).thenReturn(false);
+		when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+		when(mockUser.isVerifiedNeighborhood(invalidNeighborhoodId)).thenReturn(false);
 
 		assertThatThrownBy(() -> {
-			groupCreationService.create("Test Group", "Test Desc", INVALID_NEIGHBORHOOD_ID, USER_ID);
+			groupCreationService.create("Test Group", "Test Desc", invalidNeighborhoodId, userId);
 		}).isInstanceOf(NeighborhoodNotRegisteredException.class);
 	}
 }
