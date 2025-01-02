@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.srltas.runtogether.adapter.out.persistence.mybatis.MybatisGroupMapper">
+
+    <insert id="save" parameterType="AddGroupDTO">
+        INSERT INTO running_groups (id, name, description, neighborhood_id, create_by_user_id, create_at)
+        VALUES (#{groupId}, #{groupName}, #{description}, #{neighborhoodId}, #{createByUserId}, #{createAt})
+    </insert>
+</mapper>

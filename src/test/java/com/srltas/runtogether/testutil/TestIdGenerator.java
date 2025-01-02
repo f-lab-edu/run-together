@@ -14,4 +14,8 @@ public class TestIdGenerator {
 	public String generateNeighborhoodId() {
 		return "test_neighborhood_" + UUID.randomUUID();
 	}
+
+	public String generateGroupId() {
+		return "test_group_" + UUID.randomUUID();
+	}
 }
