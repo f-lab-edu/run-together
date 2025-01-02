@@ -6,6 +6,5 @@ import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.AddGroupDTO;
 
 @Mapper
 public interface MybatisGroupMapper {
-
 	void save(AddGroupDTO dto);
 }
