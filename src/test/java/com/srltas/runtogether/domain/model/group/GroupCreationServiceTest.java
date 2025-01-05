@@ -50,9 +50,9 @@ class GroupCreationServiceTest {
 		when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
 		when(mockUser.isVerifiedNeighborhood(invalidNeighborhoodId)).thenReturn(false);
 
-		assertThatThrownBy(() -> {
-			groupCreationService.create("Test Group", "Test Desc", invalidNeighborhoodId, userId);
-		}).isInstanceOf(NeighborhoodNotRegisteredException.class);
+		assertThatThrownBy(() ->
+			groupCreationService.create("Test Group", "Test Desc", invalidNeighborhoodId, userId))
+			.isInstanceOf(NeighborhoodNotRegisteredException.class);
 	}
 
 	@Test
