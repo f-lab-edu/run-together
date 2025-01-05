@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.srltas.runtogether.application.exception.UserNotFoundException;
 import com.srltas.runtogether.domain.model.neighborhood.exception.NeighborhoodNotRegisteredException;
 import com.srltas.runtogether.domain.model.user.User;
 import com.srltas.runtogether.domain.model.user.UserRepository;
@@ -52,5 +53,15 @@ class GroupCreationServiceTest {
 		assertThatThrownBy(() -> {
 			groupCreationService.create("Test Group", "Test Desc", invalidNeighborhoodId, userId);
 		}).isInstanceOf(NeighborhoodNotRegisteredException.class);
+	}
+
+	@Test
+	@DisplayName("그룹 생성 실패(사용자가 없는 경우)")
+	void testCreateGroupFailure_no_users() {
+		when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+		assertThatThrownBy(() ->
+			groupCreationService.create("Test Group", "Test Desc", validNeighborhoodId, userId))
+			.isInstanceOf(UserNotFoundException.class);
 	}
 }
