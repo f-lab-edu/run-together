@@ -48,4 +48,8 @@ public class User {
 		userNeighborhood.verifyNeighborhood();
 		return userNeighborhood;
 	}
+
+	public boolean isVerifiedNeighborhood(String neighborhoodId) {
+		return userNeighborhoods.containsKey(neighborhoodId);
+	}
 }

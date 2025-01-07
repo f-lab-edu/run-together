@@ -13,8 +13,8 @@ public class GroupConverter {
 			.groupId(group.getId())
 			.groupName(group.getName())
 			.description(group.getDescription())
-			.neighborhoodId(group.getNeighborhood().getId())
-			.createByUserId(group.getCreateByUser().getId())
+			.neighborhoodId(group.getNeighborhoodId())
+			.createByUserId(group.getCreateByUserId())
 			.createAt(group.getCreatedAt())
 			.build();
 	}
