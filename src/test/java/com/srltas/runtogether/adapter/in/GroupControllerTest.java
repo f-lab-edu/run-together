@@ -35,15 +35,13 @@ class GroupControllerTest {
 	private GroupController groupController;
 
 	@Test
-	@DisplayName("그룹 등록 성공")
+	@DisplayName("그룹 생성 성공")
 	void testAddGroupSuccess() {
 		String userId = generateUserId();
 		String neighborhoodId = generateNeighborhoodId();
 
 		AddGroupRequest request = new AddGroupRequest(
-			neighborhoodId,
-			"Test Group",
-			"Test Group Description");
+			neighborhoodId, "Test Group", "Test Group Description");
 		UserSession userSession = new UserSession(userId);
 		given(session.getAttribute(USER_SESSION)).willReturn(userSession);
 
@@ -51,10 +49,6 @@ class GroupControllerTest {
 
 		assertThat(response.getStatusCode(), is(HttpStatus.OK));
 		verify(addGroup).create(
-			new AddGroupCommand(
-				"Test Group",
-				"Test Group Description",
-				neighborhoodId,
-				userId));
+			new AddGroupCommand("Test Group", "Test Group Description", neighborhoodId, userId));
 	}
 }
