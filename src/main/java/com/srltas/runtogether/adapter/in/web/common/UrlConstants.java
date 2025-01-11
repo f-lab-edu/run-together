@@ -11,8 +11,9 @@ public class UrlConstants {
 	public static final String USER_NEIGHBORHOOD_PATTERN = "/users/neighborhoods/*";
 	public static final String NEIGHBORHOOD_VERIFICATION = "/users/neighborhoods/verification";
 	public static final String USER_NEIGHBORHOOD = "/users/neighborhoods";
+	public static final String GROUP = "/groups";
 
 	public List<String> getAuthRequiredUrls() {
-		return Arrays.asList(NEIGHBORHOOD_VERIFICATION, USER_NEIGHBORHOOD, USER_NEIGHBORHOOD_PATTERN);
+		return Arrays.asList(NEIGHBORHOOD_VERIFICATION, USER_NEIGHBORHOOD, USER_NEIGHBORHOOD_PATTERN, GROUP);
 	}
 }
