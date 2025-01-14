@@ -19,4 +19,9 @@ public class MybatisGroupRepository implements GroupRepository {
 	public void save(Group group) {
 		mapper.save(toAddGroupDTO(group));
 	}
+
+	@Override
+	public void delete(String groupId) {
+		mapper.delete(toDeleteGroupDTO(groupId));
+	}
 }
