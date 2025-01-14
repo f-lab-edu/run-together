@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.AddGroupDTO;
+import com.srltas.runtogether.adapter.out.persistence.mybatis.dto.DeleteGroupDTO;
 import com.srltas.runtogether.domain.model.group.Group;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,7 +24,7 @@ class MybatisGroupRepositoryTest {
 	private MybatisGroupRepository groupRepository;
 
 	@Test
-	@DisplayName("러닝 그룹 조회 SQL 실행 위임을 검증")
+	@DisplayName("러닝 그룹 생성 SQL 실행 위임을 검증")
 	void shouldCallMapperToGroupRepository() {
 		Group mockGroup = mock(Group.class);
 
@@ -32,5 +33,12 @@ class MybatisGroupRepositoryTest {
 
 		groupRepository.save(mockGroup);
 		verify(groupMapper).save(any(AddGroupDTO.class));
+	}
+
+	@Test
+	@DisplayName("러닝 그룹 삭제 SQL 실행 위임을 검증")
+	void test() {
+		groupRepository.delete(generateGroupId());
+		verify(groupMapper).delete(any(DeleteGroupDTO.class));
 	}
 }
