@@ -22,4 +22,11 @@ public class MybatisGroupRepositoryLogProxy implements GroupRepository {
 		groupRepository.save(group);
 		RunTogetherMDC.putMessage("add_group_SQL_time", String.valueOf(System.currentTimeMillis() - startTime));
 	}
+
+	@Override
+	public void delete(String groupId) {
+		long startTime = System.currentTimeMillis();
+		groupRepository.delete(groupId);
+		RunTogetherMDC.putMessage("delete_group_SQL_time", String.valueOf(System.currentTimeMillis() - startTime));
+	}
 }
