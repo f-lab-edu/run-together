@@ -16,9 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.srltas.runtogether.adapter.in.web.dto.AddGroupRequest;
+import com.srltas.runtogether.adapter.in.web.dto.DeleteGroupRequest;
 import com.srltas.runtogether.adapter.out.session.UserSession;
 import com.srltas.runtogether.application.port.in.AddGroup;
 import com.srltas.runtogether.application.port.in.AddGroupCommand;
+import com.srltas.runtogether.application.port.in.DeleteGroup;
+import com.srltas.runtogether.application.port.in.DeleteGroupCommand;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,13 +32,16 @@ class GroupControllerTest {
 	private AddGroup addGroup;
 
 	@Mock
+	private DeleteGroup deleteGroup;
+
+	@Mock
 	HttpSession session;
 
 	@InjectMocks
 	private GroupController groupController;
 
 	@Test
-	@DisplayName("그룹 생성 성공")
+	@DisplayName("러닝 그룹 생성 성공")
 	void testAddGroupSuccess() {
 		String userId = generateUserId();
 		String neighborhoodId = generateNeighborhoodId();
@@ -50,5 +56,18 @@ class GroupControllerTest {
 		assertThat(response.getStatusCode(), is(HttpStatus.OK));
 		verify(addGroup).create(
 			new AddGroupCommand("Test Group", "Test Group Description", neighborhoodId, userId));
+	}
+
+	@Test
+	@DisplayName("러닝 그룹 삭제 성공")
+	void testDeleteGroupSuccess() {
+		String groupId = generateUserId();
+
+		DeleteGroupRequest request = new DeleteGroupRequest(groupId);
+
+		ResponseEntity<Void> response = groupController.delete(request);
+
+		assertThat(response.getStatusCode(), is(HttpStatus.OK));
+		verify(deleteGroup).delete(new DeleteGroupCommand(groupId));
 	}
 }
