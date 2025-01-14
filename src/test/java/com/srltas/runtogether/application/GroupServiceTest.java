@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.srltas.runtogether.application.port.in.AddGroupCommand;
+import com.srltas.runtogether.application.port.in.DeleteGroupCommand;
 import com.srltas.runtogether.domain.model.group.Group;
 import com.srltas.runtogether.domain.model.group.GroupCreationService;
 import com.srltas.runtogether.domain.model.group.GroupRepository;
@@ -85,5 +86,16 @@ class GroupServiceTest {
 			.isInstanceOf(NeighborhoodNotRegisteredException.class);
 
 		verifyNoMoreInteractions(groupRepository);
+	}
+
+	@Test
+	@DisplayName("그룹 삭제 성공")
+	void delete_whenValidCommand_thenDeletesGroup() {
+		String groupId = TestIdGenerator.generateGroupId();
+		DeleteGroupCommand command = new DeleteGroupCommand(groupId);
+
+		groupService.delete(command);
+
+		verify(groupRepository).delete(groupId);
 	}
 }
